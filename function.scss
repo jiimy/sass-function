@@ -1,0 +1,33 @@
+//전체중 컨텐츠 퍼센트 값 구하기. 기본값 소수점 2번째 자리까지 
+@function percent-width($full-width, $content-width, $digit : 2) {
+    $percent: 100;
+    @if($digit == 1){
+      $percent : 10;
+    }
+    @if($digit == 2){
+      $percent : 100;
+    }
+    @if($digit == 3){
+      $percent: 1000;
+    }
+    @else {
+     @warn "`$digit 1~3`.";
+    }
+      @return round((($content-width/$full-width)*100%)*$percent)/$percent;
+  }
+ 
+ // inline-block을 이용한 세로 가운데 
+  @mixin vertical-center {
+    letter-spacing:-10px;
+    &:before {
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        content:'';
+    }
+    & > * {
+        display: inline-block;
+        vertical-align: middle;
+        letter-spacing:0;
+    }
+}
