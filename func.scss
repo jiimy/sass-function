@@ -730,9 +730,43 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
+
 @mixin convert-m($value, $size, $type:mo) {
   @media (max-width: $breakpoints-mobile+'px') {
     #{$value}: $size;
+  }
+}
+
+@function convertm2($target){
+  $result:();
+  $length:length($target);
+  @if($length==1){
+    @return $target*2px;
+  }
+  @else if($length==2){
+    $result: append($result, nth($target, 1) * 2);
+    $result: append($result, nth($target, 2) * 2);
+    $result: append($result, nth($target, 1) * 2);
+    $result: append($result, nth($target, 2) * 2);
+    @return $result;
+  }
+  @else if($length==3){
+    $result: append($result, nth($target, 1) * 2);
+    $result: append($result, nth($target, 2) * 2);
+    $result: append($result, nth($target, 1) * 2);
+    $result: append($result, nth($target, 2) * 2);
+    @return $result;
+  }
+  @else if($length==4){
+    @for $i from 1 through 4 {
+      $result: append($result, nth($target, $i) * 2);
+    }
+    @return $result;
+  }
+}
+@mixin convert-m2($value, $size, $type:mo) {
+  @media (max-width: $breakpoints-mobile+'px') {
+    #{$value}: convertm2($size);
   }
 }
 
@@ -939,17 +973,28 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
 
 /* == 자동으로 숫자리스트넣어주기 == */
 /* === number 값엔 카운트할 갯수 == */
-@mixin auto-count($number, $start-number:1) {
+@mixin auto-count($number, $start-number:1, $type:'pc') {
   &:before {
     display: inline-block;
     vertical-align: middle;
     text-align: center;
   }
-
-  @for $i from $start-number through $number {
-    &:nth-child(#{$i}) {
-      &:before {
-        content:'#{$i}'
+  @if ($type == 'pc') {
+    @for $i from $start-number through $number {
+      &:nth-child(#{$i}) {
+        &:before {
+          content:'#{$i}'
+        }
+      }
+    }
+    @content;
+  }
+  @if ($type == 'mo') {
+    @for $i from $start-number through $number {
+      &:nth-child(#{$i}) {
+        &:before {
+          @content;
+        }
       }
     }
   }
@@ -1039,6 +1084,23 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
+@mixin multi-dotdotdot($font-size, $lines-to-show, $line-height:1.5) {
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  // box-orient: vertical;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp: $lines-to-show;
+  // display: box;
+  // max-width: 400px;
+  max-width:100%;
+  height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+  margin: 0 auto;
+  font-size: $font-size;
+  line-height: $line-height;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 // 말줄임 제거
 // @mixin remove-dotdotdot(){
 //   white-space: normal;
@@ -1110,9 +1172,11 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
     right:0;
     bottom:0;
     margin-top: 0;
+    margin:0;
     opacity: 1;
     border-radius: 0;
     z-index: 10;
+    max-width:inherit!important;
     @content;
   }
 }
@@ -1250,6 +1314,24 @@ $percent-type : (('vw-mo', 180dp),
   100% {
     opacity: 1;
     transform: translateY(0px);
+  }
+}
+
+@keyframes lprequest {
+  0% {
+    // opacity: 0;
+    // transform: translateY(120px);
+    bottom:-100%;
+  }
+
+  // 25% {
+  //   opacity: 0;
+  // }
+
+  100% {
+    // opacity: 1;
+    // transform: translateY(0px);
+    bottom:27px;
   }
 }
 
@@ -1409,17 +1491,17 @@ $junior-color-pack : (
   4: #f7f8f8
 );
 $currLine-color : (
-  1: #30a164,
-  2: #00ada3,
-  3: #00b9cb,
-  4: #289fc6,
-  5: #e95241,
-  6: #f86822,
-  7: #faa807,
-  8: #f9c21d,
-  9: #b8cc37,
-  10: #95c14e,
-  11: #30a164
+  1: #95c14e,
+  2: #30a164,
+  3: #00ada3,
+  4: #00b9cb,
+  5: #289fc6,
+  6: #e95241,
+  7: #f86822,
+  8: #faa807,
+  9: #f9c21d,
+  10: #b8cc37,
+  11: #95c14e
 );
 @for $i from 1 through 10 {
   @keyframes currDot#{$i} {
@@ -1619,5 +1701,8 @@ $random-bg : (
   }
   @if ($type == 'cover') {
     background-size:cover;
+  }
+  @if ($type == 'none') {
+    background-size:initial;
   }
 }
