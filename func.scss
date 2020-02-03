@@ -1688,12 +1688,10 @@ $random-bg : (
 );
 
 // 밑줄 높이, 밑줄 색상
-// 기본 40%, transparent로 높이 조절하게 만들기. 
 @mixin text-underline ($height, $background) {
   background-image: linear-gradient(transparent (100 - $height / 1%)* 1%, $background $height);
   @content;
 }
-
 @mixin bg($type:'contain'){
   @content;
   background-position: center;
@@ -1708,3 +1706,4 @@ $random-bg : (
     background-size:initial;
   }
 }
+
