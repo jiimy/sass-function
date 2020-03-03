@@ -1,0 +1,214 @@
+  &.order-1 {
+   @include vw-convert(height, 136px);
+
+   .choice-box {
+    background: url("components/imgs/box1_img.svg") no-repeat center;
+    }
+
+   &.is-chk {
+    .choice-box {
+     color: white;
+     background: url("components/imgs/bluebox_img1.svg") no-repeat center;
+     @include stat(background, none, mo);
+     }
+    }
+
+   &.is-red {
+    .choice-box {
+     background: url("components/imgs/box1On_img-red.svg") no-repeat bottom;
+     }
+    }
+
+   &.is-blue {
+    .choice-box {
+     background: url("components/imgs/box1On_img-blue.svg") no-repeat bottom;
+     }
+    }
+
+   &.is-yellow {
+    .choice-box {
+     background: url("components/imgs/box1On_img-yellow.svg") no-repeat bottom;
+     }
+    }
+
+   &.is-green {
+    .choice-box {
+     background: url("components/imgs/box1On_img-green.svg") no-repeat bottom;
+     }
+    }
+   }
+
+  &.order-2 {
+   @include vw-convert(height, 197px);
+
+   .choice-box {
+    background: url("components/imgs/box2_img.svg") no-repeat center;
+    background-size: contain;
+    }
+
+   &.is-chk {
+    .choice-box {
+     color: white;
+     background: url("components/imgs/bluebox_img2.svg") no-repeat center;
+     @include stat(background, none, mo);
+     }
+    }
+
+   &.is-red {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box2On_img-red.svg") no-repeat center;
+      }
+     }
+    }
+
+   &.is-blue {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box2On_img-blue.svg") no-repeat center;
+      }
+     }
+    }
+
+   &.is-yellow {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box2On_img-yellow.svg") no-repeat center;
+      }
+     }
+    }
+
+   &.is-green {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box2On_img-green.svg") no-repeat center;
+      }
+     }
+    }
+   }
+
+  &.order-3 {
+   @include vw-convert(height, 233px);
+
+   .choice-box {
+    background: url("components/imgs/box3_img.svg") no-repeat center;
+    background-size: contain;
+    }
+
+   &.is-chk {
+    .choice-box {
+     color: white;
+     background: url("components/imgs/bluebox_img3.svg") no-repeat center;
+     @include stat(background, none, mo);
+     }
+    }
+
+   &.is-red {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box3On_img-red.svg") no-repeat center;
+      }
+     }
+    }
+
+   &.is-blue {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box3On_img-blue.svg") no-repeat center;
+      }
+     }
+    }
+
+   &.is-yellow {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box3On_img-yellow.svg") no-repeat center;
+      }
+     }
+    }
+
+   &.is-green {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box3On_img-green.svg") no-repeat center;
+      }
+     }
+    }
+   }
+
+  &.order-4 {
+   @include vw-convert(height, 269px);
+
+   .choice-box {
+    background: url("components/imgs/box4_img.svg") no-repeat center;
+    background-size: contain;
+    }
+
+   &.is-chk {
+    .choice-box {
+     color: white;
+     background: url("components/imgs/bluebox_img4.svg") no-repeat center;
+     @include stat(background, none, mo);
+     }
+    }
+
+   &.is-red {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box4On_img-red.svg") no-repeat center;
+      }
+     }
+    }
+
+   &.is-blue {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box4On_img-blue.svg") no-repeat center;
+      }
+     }
+    }
+
+   &.is-yellow {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box4On_img-yellow.svg") no-repeat center;
+      }
+     }
+    }
+
+   &.is-green {
+    .choice-box {
+     @include bg {
+      background: url("components/imgs/box4On_img-green.svg") no-repeat center;
+      }
+     }
+    }
+   }
+   
+  // 위는 각 타입별로 다른 사이즈의 이미지 4개씩이 들어가는 소스인데 
+
+$class-img : (
+        1: pale-blue,
+        2: sky-blue,
+        3: purple-blue,
+        4: deeppurple-blue
+      );
+      $box-height : (
+        1: 136px,
+        2: 197px,
+        3: 233px,
+        4: 269px
+      );
+      @for $i from 1 through 4 {
+        &.order-#{$i} {
+          @include vw-convert(height, map-get($box-height, $i));
+          @each $name, $color in $class-img {
+            &.is-#{$color} {
+                .choice-box {
+                  background: url("components/imgs/box#{$i}_#{$color}.svg") no-repeat bottom;
+                }
+            }
+          }
+        }
+      }
+아래의 소스로 변환!! 
