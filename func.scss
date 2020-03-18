@@ -29,65 +29,80 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   'vw-mo640':3, // 제풀린 640px
 );
 
-// * 학습자 모바일, 태블릿
-// (학습자) 모바일 650기준
-// TODO: 여기에 추가 하기
-// @function mobiletype($type){
-//   @if ($type==#{map-get($mobile-sizes, 1)}) {
-//     $multiple : 4!global;
-//     $vw-content: ($viewport-mobile * 0.01) * 1px!global;
-//     @return ($multiple, $vw-content);
-//   }
-//   @else if ($type==#{map-get($mobile-sizes, 2)}) {
-//     $multiple : 1!global;
-//     $vw-content: (360 * 0.01) * 1px!global;
-//     @return ($multiple, $vw-content);
-//   }
-// }
+
+// *--모바일 기본 해상도 타입
+@function mobile-640($target){
+  $result: ();
+  $length: length($target);
+  @for $i from 1 through $length {
+    @if type-of(nth($target, $i)) == string {
+      $result : append($result, nth($target, $i));
+    }
+    @else {
+    $result : append($result, nth($target, $i) *0.5625);
+    }
+  }
+  @return $result;
+}
+@function mobile-360($target){
+  $result: ();
+  $length: length($target);
+  @for $i from 1 through $length {
+    @if type-of(nth($target, $i)) == string {
+      $result : append($result, nth($target, $i));
+    }
+    @else {
+    $result : append($result, nth($target, $i) *1);
+    }
+  }
+  @return $result;
+}
+@function mobile-180($target){
+  $result: ();
+  $length: length($target);
+  @for $i from 1 through $length {
+    @if type-of(nth($target, $i)) == string {
+      $result : append($result, nth($target, $i));
+    }
+    @else {
+    $result : append($result, nth($target, $i) *2);
+    }
+  }
+  @return $result;
+}
+@function convert-free($target, $ratio){
+  $result: ();
+  $length: length($target);
+  @for $i from 1 through $length {
+    @if type-of(nth($target, $i)) == string {
+      $result : append($result, nth($target, $i));
+    }
+    @else {
+    $result : append($result, nth($target, $i) *$ratio);
+    }
+  }
+  @return $result;
+}
+
+
 @function vw-mo($target) {
-  // @return targetLength($target, mobiletype(#{map-get($mobile-sizes, 1)}));
-  @return targetLength($target, 'vw-mo180dp');
+  $convert-result: mobile-180($target);
+  @return $convert-result;
 }
 
 @function vw-mo360($target) {
-  // @return targetLength($target, mobiletype(#{map-get($mobile-sizes, 2)}));
-  @return targetLength($target, 'vw-mo360');
+  $convert-result: mobile-360($target);
+  @return $convert-result;
 }
 
 @function vw-convert-bg-size-mo($target) {
-  @return targetLength($target, 'vw-convert-bg-size-mo');
+  $convert-result: mobile-180($target);
+  @return $convert-result;
 }
 
 @function vw-mo640($target) {
-  $vw-content: ($viewport-mobile640 * 0.01) * 1px;
-  $result: ();
-  $length: length($target);
-
-  @if($length==1) {
-    @return ($target / $vw-content) * 2vw;
-  }
-
-  @else if($length==2) {
-    $result: append($result, nth($target, 1) / $vw-content *2vw);
-    $result: append($result, nth($target, 2) / $vw-content *2vw);
-    @return $result;
-  }
-
-  @else if($length==3) {
-    $result: append($result, nth($target, 1) / $vw-content *2vw);
-    $result: append($result, nth($target, 2) / $vw-content *2vw);
-    $result: append($result, nth($target, 3) / $vw-content *2vw);
-    $result: append($result, nth($target, 2) / $vw-content *2vw);
-    @return $result;
-  }
-
-  @else if($length==4) {
-    @for $i from 1 through 4 {
-      $result: append($result, nth($target, $i) / $vw-content *2vw);
-    }
-
-    @return $result;
-  }
+  $convert-result: mobile-640($target);
+  @return $convert-result;
 }
 
 // 모바일 가로모드
@@ -142,75 +157,16 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
-@function targetLength($target, $type, $unit:vw) {
-  $result: ();
-  $length: length($target);
-
-  @if ($type=='vw-mo180dp') {
-    $multiple: 4 !global;
-    $vw-content: ($viewport-mobile * 0.01) * 1px !global;
-  }
-
-  @if($type=='vw-mo360') {
-    $multiple: 1 !global;
-    $vw-content: (360 * 0.01) * 1px !global;
-  }
-
-  @if ($type=='vw-mo640') {
-    $multiple: 2 !global;
-    $vw-content: ($viewport-mobile640 * 0.01) * 1px !global;
-  }
-
-  @if ($type=='vw-convert-bg-size-mo') {
-    $multiple: 4 !global;
-    $vw-content: ($viewport-mobile * 0.01) * 1px !global;
-  }
-
-  @if($length==1) {
-    @return ($target / $vw-content) * $multiple * 1#{$unit};
-  }
-
-  @else if($length==2) {
-    $result: append($result, nth($target, 1) / $vw-content * $multiple * 1#{$unit});
-    $result: append($result, nth($target, 2) / $vw-content * $multiple * 1#{$unit});
-    @return $result;
-  }
-
-  @else if($length==3) {
-    $result: append($result, nth($target, 1) / $vw-content * $multiple * 1#{$unit});
-    $result: append($result, nth($target, 2) / $vw-content * $multiple * 1#{$unit});
-    $result: append($result, nth($target, 3) / $vw-content * $multiple * 1#{$unit});
-    $result: append($result, nth($target, 2) / $vw-content * $multiple * 1#{$unit});
-    @return $result;
-  }
-
-  @else if($length==4) {
-    @for $i from 1 through 4 {
-      $result: append($result, nth($target, $i) / $vw-content * $multiple * 1#{$unit});
-    }
-
-    @return $result;
-  }
-}
-
-
-
 // (학습자) 모바일 650기준 백그라운드 이미지
 
 @function vw-convert-bg-size-mo360($target) {
-  $vw-content: (360 * 0.01) * 1px;
-  $result: ();
-  $result: append($result, nth($target, 1) / $vw-content *1vw);
-  $result: append($result, nth($target, 2) / $vw-content *1vw);
-  @return $result;
+  $convert-result: mobile-360($target);
+  @return $convert-result;
 }
 
 @function vw-convert-bg-size-mo640($target) {
-  $vw-content: ($viewport-mobile640 * 0.01) * 1px;
-  $result: ();
-  $result: append($result, nth($target, 1) / $vw-content *2vw);
-  $result: append($result, nth($target, 2) / $vw-content *2vw);
-  @return $result;
+  $convert-result: mobile-640($target);
+  @return $convert-result;
 }
 
 // pc full 1920기준
@@ -289,7 +245,8 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   $result: ();
   $result: append($result, nth($target, 1) / $vw-content *1vw);
   $result: append($result, nth($target, 2) / $vw-content *1vw);
-  @return $result;
+  // @return $result;
+  @return $target;
 }
 
 @function vw-convert-bg-size-full($target) {
@@ -340,7 +297,8 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   $result: ();
   $result: append($result, nth($target, 1) / $vw-content *4vw);
   $result: append($result, nth($target, 2) / $vw-content *4vw);
-  @return $result;
+  // @return $result;
+  @return $target;
 }
 
 // (관리자) 태블릿 1366기준
@@ -391,7 +349,8 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   $result: ();
   $result: append($result, nth($target, 1) / $vw-content *1vw);
   $result: append($result, nth($target, 2) / $vw-content *1vw);
-  @return $result;
+  // @return $result;
+  @return $target;
 }
 
 
@@ -438,7 +397,8 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   @if ($mode=='mo') {
     @media (max-width: ($breakpoints-mobile +'px')) {
       @if ($value==background-size) {
-        #{$value}: vw-convert-bg-size-mo640($size);
+        // #{$value}: vw-convert-bg-size-mo640($size);
+        #{$value}: $size;
       }
 
       @if(type-of($size)==string) {
@@ -613,6 +573,7 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
       @else {
         @if($flag=='true') {
           #{$value}: vw-convert-ta($size) !important;
+          // #{$value}: $size !important;
         }
 
         @else {
@@ -799,6 +760,35 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
+@mixin only-pc {
+  @media (min-width: $breakpoints-tablet + 'px') {
+    @content;
+  }
+}
+
+// 모바일에 적용안되게
+@mixin IsMobile($type: true) {
+  @if ($type == true) {
+    @media (max-width: $breakpoints-mobile+'px'){
+      @content;
+    }
+  }
+  @else {
+    @media (min-width: $breakpoints-mobile+'px'){
+      @content;
+    }
+  }
+}
+
+// ispad에만 적용되게 
+@mixin isipad($type: true) {
+  @if ($type == true) {
+    @media (min-width: 768+'px') and (max-width: 800+'px') and (orientation: portrait){
+      @content;
+    }
+  }
+}
+
 @mixin vw-convert-mo($mode:'student') {
 
   // 관리자 페이지일 경우 admin
@@ -809,7 +799,7 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 
   @else {
-    @media (max-width: $breakpoints-mobile+'px') {
+    @media (max-width: $breakpoints-mobile +'px') {
       @content;
     }
   }
@@ -1124,17 +1114,37 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
-// 버튼 클릭시 눌리는 효과
-@mixin btn-click($pixel, $box-shadow) {
-  box-shadow: 0 #{$pixel} 0 0 $box-shadow;
-  transition: all 0.2s;
+@function flagChange($flag) {
+  @if $flag == 'true' {
+    // $flag : '!important';
+  }
+  @return $flag;
+}
 
-  // margin-bottom:6px;
-  &:active {
-    transform: translateY(4px);
-    margin-bottom: 0;
-    overflow: hidden;
-    box-shadow: 0px 2px 0 0 $box-shadow !important;
+// 버튼 클릭시 눌리는 효과
+@mixin btn-click($pixel, $box-shadow, $flag: false) {
+  // @if $flag(true) {
+  //   $flag : flagChange($flag);
+  // }
+  @if ($flag == false) {
+    box-shadow: 0 #{$pixel} 0 0 $box-shadow;
+    transition: all 0.2s;
+    &:active {
+      transform: translateY(4px);
+      margin-bottom: 0;
+      overflow: hidden;
+      box-shadow: 0px 2px 0 0 $box-shadow;
+    }
+  }
+  @if ($flag == true) {
+    box-shadow: 0 #{$pixel} 0 0 $box-shadow !important;
+    transition: all 0.2s !important;
+    &:active {
+      transform: translateY(4px) !important;
+      margin-bottom: 0 !important;
+      overflow: hidden !important;
+      box-shadow: 0px 2px 0 0 $box-shadow !important;
+    }
   }
 }
 
@@ -1189,6 +1199,7 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
       vertical-align: middle;
       height: 100%;
       content: '';
+      @content;
     }
   }
 
@@ -1200,6 +1211,11 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
       content: '';
     }
   }
+}
+@mixin self-vertical-center{
+  display:inline-block;
+  vertical-align: middle;
+  @content;
 }
 
 @mixin select-bg {
@@ -1238,10 +1254,11 @@ $percent-type : (('vw-mo', 180dp),
   //  ('vw-')
 );
 
-@mixin percent($target, $number) {
-  @media (max-width: ($breakpoints-mobile +'px')) {
-    #{$target}: $number;
-  }
+// 비율 코딩 대체용 : px를 강제로 %화 만들기, 
+// 사용 된곳 : 순서맞추기 
+@function percent($this, $all) {
+  // this 값, 전체 값
+  @return ($this / $all * 100) * 1%;
 }
 
 @mixin text-shadow($pixel, $color) {
@@ -1707,3 +1724,107 @@ $random-bg : (
   }
 }
 
+// FIXME: 도형 만들기 함수, 삼각형
+@mixin border-triangle ($base, $direction, $bgcolor) {
+  width: 0;
+  height: 0;
+  $half-base: $base/2;
+  @if $direction == top {
+      border: {
+          left: $half-base solid transparent;
+          right: $half-base solid transparent;
+          bottom: $half-base solid $bgcolor;
+      }
+  }
+  @else if $direction == bottom {
+      border: {
+          left: $half-base solid transparent;
+          right: $half-base solid transparent;
+          top: $half-base solid $bgcolor;
+      }
+  }
+  @else if $direction == left {
+      border: {
+          top: $half-base solid transparent;
+          bottom: $half-base solid transparent;
+          right: $half-base solid $bgcolor;
+      }
+  }
+  @else {
+      border: {
+          top: $half-base solid black;
+          bottom: $half-base solid black;
+          left: $half-base solid $bgcolor;
+      }
+  }
+}
+@mixin border-triangle-top ($base, $bgcolor) {
+  @include border-triangle($base, top, $bgcolor);
+}
+@mixin border-triangle-right ($base, $bgcolor) {
+  @include border-triangle($base, right, $bgcolor);
+}
+@mixin border-triangle-bottom ($base, $bgcolor) {
+  @include border-triangle($base, bottom, $bgcolor);
+}
+@mixin border-triangle-left ($base, $bgcolor) {
+  @include border-triangle($base, left, $bgcolor);
+}
+
+// 텍스트가 한줄일 경우 font-size 와 line-height 맞추기
+@mixin one-line-text ($font-size) {
+  font-size:$font-size;
+  line-height: $font-size;
+}
+
+// 문제 타입(is-chk, is-true, is-false 체크
+// @mixin ploblem-type-chk($is-type, ){
+//   @content;
+// }
+
+// FIXME: 도형 만들기 함수, 말풍선 마들기
+@mixin speech_bubble($timer) {
+  animation: updown #{2}s infinite linear;
+    animation-fill-mode: forwards;
+  @keyframes updown {
+
+    0%,
+    100% {
+      top: -96px;
+    }
+
+    50% {
+      top: -86px;
+    }
+  }
+}
+
+// FIXME: 도형 만들기 함수,  항상 감싸서 사용하기
+@mixin bookmark($height, $width, $bottom, $color, $shadow: false) {
+  width: 0;
+  height: $height - $bottom;
+  border-left: ($width/2)+0.5px solid $color;
+  border-right: ($width/2)+0.5px solid $color;
+  border-bottom: $bottom solid transparent;
+  border-radius: 4px;
+  @if ($shadow : true) {
+    &:before {
+      position: absolute;
+      top: 5px;
+      left: 0;
+      width: 0;
+      height: $height - $bottom;
+      border-left: ($width/2)+0.5px solid #D9DFEC;
+      border-right: ($width/2)+0.5px solid #D9DFEC;
+      border-bottom: $bottom solid transparent;
+      border-radius: 4px;
+      z-index: -1;
+      content:'';
+    }
+  }
+}
+
+// jq의 hasClass같은 기능. class판별
+@mixin hasclass($class) {
+  @content;
+}
