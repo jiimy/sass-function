@@ -1,0 +1,247 @@
+// FIXME: 도형 만들기 함수, 삼각형
+@mixin border-triangle($base, $direction, $bgcolor, $option: 0) {
+  width: 0;
+  height: 0;
+  // $option: 0;
+  $half-base: $base/2;
+  @if $direction == top {
+      border-left: $half-base solid transparent;
+      border-right: $half-base solid transparent;
+    @if $option == 0 {
+       border-bottom: $half-base solid $bgcolor;
+    }
+    @if $option != 0 {
+       border-bottom: $option solid $bgcolor;
+    }
+  }
+  @else if $direction == bottom {
+    border-left: $half-base solid transparent;
+    border-right: $half-base solid transparent;
+    @if $option == 0 {
+      border-top: $half-base solid $bgcolor;
+    }
+    @if $option != 0 {
+       border-top: $option solid $bgcolor;
+    }
+  }
+  @else if $direction == left {
+    border-top: $half-base solid transparent;
+    border-bottom: $half-base solid transparent;
+    @if $option == 0 {
+      border-right: $half-base solid $bgcolor;
+    }
+    @if $option != 0 {
+       border-right: $option solid $bgcolor;
+    }
+  }
+  @else {
+    border-top: $half-base solid transparent;
+    border-bottom: $half-base solid transparent;
+    @if $option == 0 {
+      border-left: $half-base solid $bgcolor;
+    }
+    @if $option != 0 {
+       border-left: $option solid $bgcolor;
+    }
+  }
+}
+
+// 속성변경시엔 덮어씌우기
+@mixin speech_bubble($width, $height, $border-color:#d9dfcc) {
+  $border-triangle : $border-color!default;
+  position: absolute;
+  max-width: $width;
+  min-height: $height;
+  border: 2px solid $border-color;
+  background: white;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 0px 3px 0px rgba(0, 0, 0, 0.3);
+  @content;
+}
+
+@mixin speech_bubble-tail($direction, $width, $height, $border-color, $bg:white, $rgba:rgba(0, 0, 0, 0.3) ) {
+  // $bottom: '';
+  .bg-arrow, .arrow {
+    position: absolute;
+    margin:auto;
+    @if $direction == bottom or $direction == top {
+      right: 0;
+      left: 0;
+    }
+    @if $direction == bottom {
+      bottom: -$height;
+    }
+    @if $direction == top {
+      top: -$height;
+    }
+    @if $direction == left or $direction == right {
+      top: 0;
+      bottom: 0;
+    }
+    @if $direction == left {
+      left: -$width;
+    }
+    @if $direction == right {
+      right: -$width;
+    }
+  }
+  .bg-arrow { // 기본 배경
+    @include border-triangle ($width, $direction, $bg, $height);
+    z-index: 2;
+  }
+  .arrow { // 투명한 공간
+    @include border-triangle ($width, $direction, transparent, $height);
+    z-index: 1;
+    @if $direction == bottom {
+      bottom: -$height;
+    }
+    @if $direction == top {
+      top: -$height;
+    }
+    &:before, &:after {
+      position: absolute;
+      content:'';
+      @if $direction == bottom or $direction == top{
+        left: -(($width + 5)/2 );
+      }
+      @if $direction == left or $direction == right {
+        top: 0;
+        bottom: 0;
+        margin: auto;
+      }
+    }
+    &:before { // 테두리
+      @if $direction == bottom {
+        top: -$height;
+      }
+      @if $direction == top {
+        bottom: -$height;
+      }
+      @if $direction == left or $direction == right {
+      }
+      @if $direction == left {
+        left: -($height - 5);
+      }
+      @if $direction == right {
+        right: -($height - 5);
+        // right: -1*speech_bubble-tail-calc($height);
+      }
+      @include border-triangle ($width+6, $direction, $border-color, $height + 4);
+      z-index: -1;
+    }
+    &:after { // box-shadow
+      @if $direction == bottom {
+        top: -($height / 2);
+      }
+      @if $direction == top {
+        content:none;
+      }
+      @if $direction == left {
+        left: -($height - 5);
+        top: ($height - 5);
+      }
+      @if $direction == right {
+        right: -($height - 5);
+        // right: -1*speech_bubble-tail-calc($height);
+        top: ($height - 5);
+      }
+      @include border-triangle ($width+6, $direction, $rgba, $height+4);
+      z-index: -2;
+    }
+  }
+}
+
+// FIXME: 좌우용 간격 계산 함수
+@function speech_bubble-tail-calc($input){
+  $result:'';
+  @if ($input <= 12) {
+    $result: 4;
+  }
+  @else {
+    $result: $input - 5;
+  }
+  @return $result;
+}
+
+// 방향, 왼쪽 위를 기준으로 간격
+@mixin speech_bubble-tail-positon($direction, $position) {
+  //$position은 최소 3이상
+  @if $direction == 'top' or $direction == 'bottom'{
+    .bg-arrow {
+      right: auto;
+      left: $position;
+    }
+    .arrow {
+      right: auto;
+      left: $position - 1;
+    }
+  }
+  @if $direction == 'right'  or $direction == 'left'{
+    .bg-arrow, .arrow {
+      bottom: auto;
+      top: $position;
+    }
+  }
+}
+
+.wrap {
+  // min-height: auto;
+  margin: 30px;
+  @include speech_bubble(169px, 60px);
+  // --- 속성변경한 부분 ---
+  // box-shadow: none;
+  position: relative;
+  // ---------------------------------------------
+  &.top {
+    // width, height 값은 짝수로 넣고
+    // top, bottom는 width, height 값이 달라도 되지만, 
+    // FIXME: right, left는 같아야 한다. (달라도 위치 맞게 수정하기)
+    @include speech_bubble-tail(top, 10px, 10px, #d9dfec); 
+    @include speech_bubble-tail-positon(top, 20px);
+  }
+  &.right {
+    @include speech_bubble-tail(right, 10px, 10px, #d9dfec);  
+    @include speech_bubble-tail-positon(right, 20px);
+  }
+  &.bottom {
+    @include speech_bubble-tail(bottom, 10px, 10px, #d9dfec);  
+    @include speech_bubble-tail-positon(bottom, 20px);
+  }
+  &.left {
+    @include speech_bubble-tail(left, 10px, 10px, #d9dfec);  
+    @include speech_bubble-tail-positon(left, 10px);
+  }
+}
+
+// <div class="wrap top">
+//   <div class="text">
+//    위 화살표
+//   </div>
+//   <div class="bg-arrow"></div>
+//   <div class="arrow"></div>
+// </div>
+
+// <div class="wrap right">
+//   <div class="text">
+//    오른쪽 화살표
+//   </div>
+//   <div class="bg-arrow"></div>
+//   <div class="arrow"></div>
+// </div>
+
+// <div class="wrap bottom">
+//   <div class="text">
+//    아래 화살표
+//   </div>
+//   <div class="bg-arrow"></div>
+//   <div class="arrow"></div>
+// </div>
+
+// <div class="wrap left">
+//   <div class="text">
+//    왼쪽 화살표
+//   </div>
+//   <div class="bg-arrow"></div>
+//   <div class="arrow"></div>
+// </div>
