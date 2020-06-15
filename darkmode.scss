@@ -1,1 +1,18 @@
-ttt
+@mixin dark-mode($type:dark-mode){
+    $color:'';
+  @if ($type==dark-mode){
+    $color: black;
+  }
+  @if ($type==light-mode){
+    $color: white;
+  }
+}
+
+.wrap {
+  &.is-dark {
+    @include dark-mode(dark-mode);
+  }
+  &.is-light {
+    @include dark-mode(light-mode);
+  }
+}
