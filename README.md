@@ -10,7 +10,7 @@ sass 함수 정리
 #### [function.scss](https://github.com/jiimy/sass-function/blob/master/function.scss)
 - 공부용 함수 
 
-#### [random.scss](https://github.com/jiimy/sass-function/blob/master/radom.scss)
+#### [random.scss](https://github.com/jiimy/sass-function/blob/master/random.scss)
 - 랜덤 기능 테스트
 
 #### [vw-convert.scss](https://github.com/jiimy/sass-function/blob/master/vw-convert.scss)
