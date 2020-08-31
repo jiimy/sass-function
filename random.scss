@@ -5,3 +5,7 @@
   @return $randomNum;
 }
 
+// ex)
+.section {
+  width: randomNum(1, 100) + 'px';
+}

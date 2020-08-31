@@ -1,9 +1,7 @@
 @mixin dark-mode($type:dark-mode, $theme-type:basic){
   $color:'';
   // TODO: 다크모드에 대한 컴포넌트 테스트 할것.
-  @if ($theme-type==basic) {
-
-  }
+  // comment: 타입별 변경되는 것이 있을땐 여기에 변수 항상 지정해야 됨
   @if ($type==dark-mode){
     $color: black;
   }
