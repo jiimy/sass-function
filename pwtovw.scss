@@ -1,0 +1,68 @@
+$breakpoints-tablet : 1366;
+$breakpoints-mobile : 768;
+
+@function pxtovw-mo($target) {
+  $vw-content: ($breakpoints-mobile * 0.01) * 1px;
+  $result: ();
+  $length: length($target);
+
+  @for $i from 1 through $length {
+    $result: append($result, nth($target, $i) / $vw-content +vw);
+  }
+
+  @return $result;
+}
+
+@function pxtovw-ta1366($target) {
+  $vw-content: ($breakpoints-tablet * 0.01) * 1px;
+  $result: ();
+  $length: length($target);
+
+  @for $i from 1 through $length {
+			@if(type-of(nth($target, $i)) == string) {
+				$result: append($result, nth($target, $i));
+			}
+			@else {
+    $result: append($result, nth($target, $i) / $vw-content +vw);
+			}
+  }
+
+  @return $result;
+}
+
+@mixin pxtovw-1366($value, $size, $mode:'ta', $flag:'false') {
+
+  // mo
+  @if ($mode=='mo') {
+    @media (max-width: $breakpoints-mobile + 'px') {
+      @if($flag==true) {
+        #{$value}: pxtovw-mo($size) !important;
+      }
+
+      #{$value} : pxtovw-mo($size);
+    }
+  }
+
+  //tablet
+  @if ($mode=='ta') {
+    @media (min-width: $breakpoints-mobile + 1 + 'px') and (max-width: ($breakpoints-tablet +'px')) {
+      @if($flag==true) {
+        #{$value}: pxtovw-ta1366($size) !important;
+      }
+      #{$value} : pxtovw-ta1366($size);
+    }
+
+    //pc
+    @media (min-width: ($breakpoints-tablet+'px')) {
+      @if($flag==true) {
+        #{$value}: $size !important;
+      }
+      #{$value} : $size;
+    }
+  }
+}
+
+p {
+  @include pxtovw-1366(font-size, 30px);
+  @include pxtovw-1366(margin, 20px 10px auto);
+}
