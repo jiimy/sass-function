@@ -1,0 +1,65 @@
+// z-index 정의 맵 
+@function z-index($name){
+  @if map-has-key($layer, $name){
+    @return map-get($layer, $name);
+  }
+  @warn "The key #{$name} is not in the map ’$layer’";
+  @return null;
+}
+
+// vh 에서 calc 높이 계산
+@mixin vh-calc($height, $num1) {
+  // $full : 100vh;
+  // @if ($mode == 'pc'){
+  @media (min-width: ($viewport-tablet +'px')) {
+    // $count1 : vw-convert-ta($num1);
+    // $count2 : ($count1 / 1vw) * 1px;
+    $result:calc(100vh - #{$num1});
+    #{$height}: $result;
+    // }
+  }
+
+  // @else if ($mode == 'ta'){
+  @media (min-width: $breakpoints-mobile+'px') and (max-width: ($viewport-tablet - 1+'px')) {
+    // $count1 : vw-convert-ta($num1);
+    // $count2 : ($count1 / 1vw) * 1px;
+    // $result:calc(100vh - #{$count2});
+    // $vh : (1024 * 0.01) * 1px;
+
+    // $count1 : calc(100vh - 20.7vh);
+    // #{$height} : ($num1 / $vh) * 1vh;
+    $result:calc(100vh - #{$num1});
+    #{$height}: $result;
+  }
+
+  // }
+  // @else {
+  @media (max-width: ($breakpoints-mobile+'px')) {
+    // #{$height} : $result;
+  }
+
+  // }
+  // @return $result;
+}
+
+// 이미지 백그라운드 랜덤 포지션
+// TODO :백그라운드 이미지 포지션 랜덤
+@mixin bg-position-random() {
+  $x: random(100);
+  $y: random(100);
+  @content;
+  background-position: #{$x}unquote('%') #{$y}unquote('%');
+}
+
+// flag 변수 교환
+@function flagChange($flag) {
+  @if $flag=='true' {
+    // $flag : '!important';
+  }
+
+  @return $flag;
+}
+
+
+
+function random 부터 하면됨..
