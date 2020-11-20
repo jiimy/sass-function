@@ -9,7 +9,7 @@ $pc-full : 1920;
 // *mobile breakpoint
 // 학습자 mobile width
 // 720 고려중
-$breakpoints-mobile : 768;
+$breakpoints-mobile : 767;
 $only-mobile : 640;
 // 관리자 mobile width
 $admin-mobile : 768;
@@ -31,56 +31,71 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
 
 
 // *--모바일 기본 해상도 타입
-@function mobile-640($target){
+@function mobile-640($target) {
   $result: ();
   $length: length($target);
+
   @for $i from 1 through $length {
-    @if type-of(nth($target, $i)) == string {
-      $result : append($result, nth($target, $i));
+    @if type-of(nth($target, $i))==string {
+      $result: append($result, nth($target, $i));
     }
+
     @else {
-    $result : append($result, nth($target, $i) *0.5625);
+      $result: append($result, nth($target, $i) *0.5625);
     }
   }
+
   @return $result;
 }
-@function mobile-360($target){
+
+@function mobile-360($target) {
   $result: ();
   $length: length($target);
+
   @for $i from 1 through $length {
-    @if type-of(nth($target, $i)) == string {
-      $result : append($result, nth($target, $i));
+    @if type-of(nth($target, $i))==string {
+      $result: append($result, nth($target, $i));
     }
+
     @else {
-    $result : append($result, nth($target, $i) *1);
+      $result: append($result, nth($target, $i) *1);
     }
   }
+
   @return $result;
 }
-@function mobile-180($target){
+
+@function mobile-180($target) {
   $result: ();
   $length: length($target);
+
   @for $i from 1 through $length {
-    @if type-of(nth($target, $i)) == string {
-      $result : append($result, nth($target, $i));
+    @if type-of(nth($target, $i))==string {
+      $result: append($result, nth($target, $i));
     }
+
     @else {
-    $result : append($result, nth($target, $i) *2);
+      $result: append($result, nth($target, $i) *2);
     }
   }
+
   @return $result;
 }
-@function convert-free($target, $ratio){
+
+@function convert-free($target, $ratio) {
   $result: ();
   $length: length($target);
+
   @for $i from 1 through $length {
-    @if type-of(nth($target, $i)) == string {
-      $result : append($result, nth($target, $i));
+    @if type-of(nth($target, $i))==string {
+      $result: append($result, nth($target, $i));
     }
+
     @else {
-    $result : append($result, nth($target, $i) *$ratio);
+      $result: append($result, nth($target, $i) *$ratio);
     }
   }
+
   @return $result;
 }
 
@@ -105,6 +120,23 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   @return $convert-result;
 }
 
+// 모바일 360 vw 변환
+@function vw-convert-mo($target) {
+  $vw-content: (360 * 0.01) * 1px;
+  $result: ();
+  $length: length($target);
+
+  @for $i from 1 through $length {
+    @if(type-of(nth($target, $i))==string) {
+      $result: append($result, nth($target, $i));
+    }
+    @else {
+      $result: append($result, nth($target, $i) / $vw-content +vw);
+    }
+  }
+  @return $result;
+}
+
 // 모바일 가로모드
 @function landscape($size, $type, $flag) {
   $result: ();
@@ -115,7 +147,7 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 
   @if ($flag==true) {
-    $flags:  !important !global;
+    $flags: '!important' !global;
   }
 
   @if ($type=='vw-mo180dp') {
@@ -175,34 +207,18 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   $result: ();
   $length: length($target);
 
-  @if($length==1) {
-    @return ($target / $vw-content) * 1vw;
-  }
-
-  @else if($length==2) {
-    $result: append($result, nth($target, 1) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    $result: append($result, nth($target, 1) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    @return $result;
-  }
-
-  @else if($length==3) {
-    $result: append($result, nth($target, 1) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    $result: append($result, nth($target, 3) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    @return $result;
-  }
-
-  @else if($length==4) {
-    @for $i from 1 through 4 {
+  @for $i from 1 through $length {
+    @if(type-of(nth($target, $i))==string) {
+      $result: append($result, nth($target, $i));
+    }
+    @else {
       $result: append($result, nth($target, $i) / $vw-content +vw);
     }
-
-    @return $result;
   }
+  @return $result;
 }
+
+
 
 // (학습자) 태블릿 1024기준
 @function vw-convert-ta($target) {
@@ -210,33 +226,15 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   $result: ();
   $length: length($target);
 
-  @if($length==1) {
-    @return ($target / $vw-content) * 1vw;
-  }
-
-  @else if($length==2) {
-    $result: append($result, nth($target, 1) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    $result: append($result, nth($target, 1) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    @return $result;
-  }
-
-  @else if($length==3) {
-    $result: append($result, nth($target, 1) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    $result: append($result, nth($target, 3) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    @return $result;
-  }
-
-  @else if($length==4) {
-    @for $i from 1 through 4 {
+  @for $i from 1 through $length {
+    @if(type-of(nth($target, $i))==string) {
+      $result: append($result, nth($target, $i));
+    }
+    @else {
       $result: append($result, nth($target, $i) / $vw-content +vw);
     }
-
-    @return $result;
   }
+  @return $result;
 }
 
 // (학습자) 태블릿 1024기준 백그라운드 이미지
@@ -264,31 +262,15 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   $result: ();
   $length: length($target);
 
-  @if($length==1) {
-    @return ($target / $vw-content) * 4vw;
-  }
-
-  @else if($length==2) {
-    $result: append($result, nth($target, 1) / $vw-content *4vw);
-    $result: append($result, nth($target, 2) / $vw-content *4vw);
-    @return $result;
-  }
-
-  @else if($length==3) {
-    $result: append($result, nth($target, 1) / $vw-content *4vw);
-    $result: append($result, nth($target, 2) / $vw-content *4vw);
-    $result: append($result, nth($target, 3) / $vw-content *4vw);
-    $result: append($result, nth($target, 2) / $vw-content *4vw);
-    @return $result;
-  }
-
-  @else if($length==4) {
-    @for $i from 1 through 4 {
-      $result: append($result, nth($target, $i) / $vw-content *4vw);
+  @for $i from 1 through $length {
+    @if(type-of(nth($target, $i))==string) {
+      $result: append($result, nth($target, $i));
     }
-
-    @return $result;
+    @else {
+      $result: append($result, nth($target, $i) / $vw-content +vw);
+    }
   }
+  @return $result;
 }
 
 // (관리자) 모바일 768기준 백그라운드 이미지
@@ -307,40 +289,15 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   $result: ();
   $length: length($target);
 
-  @if($length==1) {
-    @return ($target / $vw-content) * 1vw;
-  }
-
-  @else if($length==2) {
-    $result: append($result, nth($target, 1) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    $result: append($result, nth($target, 1) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    @return $result;
-  }
-
-  @else if($length==3) {
-    $result: append($result, nth($target, 1) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    $result: append($result, nth($target, 3) / $vw-content +vw);
-    $result: append($result, nth($target, 2) / $vw-content +vw);
-    @return $result;
-  }
-
-  @else if($length==4) {
-    
-    @for $i from 1 through 4 {
-      @if type-of(nth($target, 2)) == string {
-        $result : append($result, nth($target, $i));
-      }
-      @if type-of(nth($target, 4)) == string {
-        $result : append($result, nth($target, $i));
-      }
+  @for $i from 1 through $length {
+    @if(type-of(nth($target, $i))==string) {
+      $result: append($result, nth($target, $i));
+    }
+    @else {
       $result: append($result, nth($target, $i) / $vw-content +vw);
     }
-
-    @return $result;
   }
+  @return $result;
 }
 
 // (관리자) 태블릿 1366기준 백그라운드 이미지
@@ -353,6 +310,9 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   @return $target;
 }
 
+
+
+// @@@@@@@@@@@@@@@ function 끝 @@@@@@@@@@@@@@@@@
 
 @mixin transform($type, $size, $mode:'ta', $scale:null) {
   @if($mode=='mo') {
@@ -379,20 +339,6 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
-@mixin non-convert($value, $size, $mode:'ta', $type:'false') {
-  @if ($mode=='ta') {
-
-    //pc
-    @media (min-width: ($breakpoints-mobile +1 +'px')) {
-      @if($type=='true') {
-        #{$value}: $size !important;
-      }
-
-      #{$value} : $size;
-    }
-  }
-}
-
 @mixin vw-convert640($value, $size, $mode:'ta', $type:'false') {
   @if ($mode=='mo') {
     @media (max-width: ($breakpoints-mobile +'px')) {
@@ -413,18 +359,16 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
 }
 
 @mixin m-landscape() {
+
+  // @media (max-width: ($breakpoints-mobile +'px')) and (orientation: landscape) {
   @media (max-width: ($breakpoints-mobile +'px')) and (orientation: landscape) {
     @content;
   }
 }
 
 @mixin vw-convert360($value, $size, $mode:'mo', $flag:'false') {
-
-  // $point : '720';
   @if ($mode=='mo') {
     @media (max-width: ($breakpoints-mobile +'px')) {
-
-      // @media (max-width: ($point +'px')) {
       @if ($value==background-size) {
         #{$value}: vw-convert-bg-size-mo360($size);
       }
@@ -432,15 +376,13 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
       @if(type-of($size)==string) {
         #{$value}: $size;
       }
+
       @else {
         #{$value}: vw-mo360($size);
       }
     }
 
     // TODO: 모바일 360 태블릿 768전용 미디어쿼리
-    // @media (min-width : ($point+'px')) and (max-width : ($breakpoints-mobile + 'px')) {
-    //   #{$value} : $size;
-    // }
     @media (max-width: ($breakpoints-mobile +'px')) and (orientation: landscape) {
       @if(type-of($size)==string) {
         #{$value}: $size;
@@ -499,12 +441,8 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
 //   }
 // }
 
-@mixin vw-convert($value, $size, $mode:'ta', $flag:'false') {
-
-  //모바일은 별도의 사이즈
+@mixin vw-convert-m2($value, $size, $mode: 'mo', $flag:'false') {
   @if ($mode=='mo') {
-
-    // $only-mobile
     @media (max-width: ($breakpoints-mobile + 'px')) {
 
       // @media (max-width: ($only-mobile +'px')) {
@@ -517,79 +455,80 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
       }
 
       @else if($flag==true) {
-        #{$value}: vw-mo($size) !important;
+        #{$value}: vw-convert-mo($size) !important;
       }
 
+      @else {
+        #{$value}: vw-convert-mo($size);
+      }
+    }
+  }
+}
+
+@mixin vw-convert($value, $size, $mode:'ta', $flag:'false', $landscape: false) {
+  // mobile
+  @if ($mode=='mo') {
+    @media (max-width: ($breakpoints-mobile + 'px')) {
+      @if ($value==background-size) {
+        #{$value}: vw-convert-bg-size-mo($size);
+      }
+      @else if(type-of($size)==string) {
+        #{$value}: $size;
+      }
+      @else if($flag==true) {
+        #{$value}: vw-mo($size) !important;
+      }
       @else {
         #{$value}: vw-mo($size);
       }
     }
-
-    // @media (min-width:($only-mobile + 'px')) and (max-width: ($breakpoints-mobile +'px')) {
-    //   #{$value}:countLength($size);
-    // }
-    //* @media (max-width: ($only-mobile +'px')) and (orientation: landscape){
-    @media (max-width: ($breakpoints-mobile +'px')) and (orientation: landscape) {
-      @if($value==background-size) {
-        @if($flag==true) {
-          #{$value}: landscape($size, 'vw-convert-bg-size-mo', $flag:true);
+    @if ($landscape == true) {
+      @media (max-width: ($breakpoints-mobile +'px')) and (orientation: landscape) {
+        @if($value==background-size) {
+          @if($flag==true) {
+            #{$value}: landscape($size, 'vw-convert-bg-size-mo', $flag:true);
+          }
+          @else {
+            #{$value}: landscape($size, 'vw-convert-bg-size-mo', $flag);
+          }
         }
-
+        @else if(type-of($size)==string) {
+          #{$value}: $size;
+        }
         @else {
-          #{$value}: landscape($size, 'vw-convert-bg-size-mo', $flag);
-        }
-      }
-
-      @else if(type-of($size)==string) {
-        #{$value}: $size;
-      }
-
-      @else {
-
-        // TODO: Landscape 모드
-        @if($flag==true) {
-          #{$value}: landscape($size, 'vw-mo180dp', $flag:true);
-        }
-
-        @else {
-          #{$value}: landscape($size, 'vw-mo180dp', $flag);
+          @if($flag==true) {
+            #{$value}: landscape($size, 'vw-mo180dp', $flag:true);
+          }
+          @else {
+            #{$value}: landscape($size, 'vw-mo180dp', $flag);
+          }
         }
       }
     }
   }
-
-  //tablet
+  // tablet
   @if ($mode=='ta') {
     @media (min-width: $breakpoints-mobile + 1 +'px') and (max-width: ($viewport-tablet - 1+'px')) {
       @if ($value==background-size) {
-        // #{$value} : red;
         #{$value}: vw-convert-bg-size($size);
       }
-
       @else if(type-of($size)==string) {
         #{$value}: $size;
       }
-
       @else {
         @if($flag=='true') {
           #{$value}: vw-convert-ta($size) !important;
-          // #{$value}: $size !important;
         }
-
         @else {
           #{$value}: vw-convert-ta($size);
         }
-
-        // #{$value} : $size;
       }
     }
-
     //pc
     @media (min-width: ($viewport-tablet+'px')) {
       @if($flag=='true') {
         #{$value}: $size !important;
       }
-
       #{$value} : $size;
     }
   }
@@ -601,22 +540,18 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
       @if ($value==background-size) {
         #{$value}: vw-convert-bg-size-full($size);
       }
-
       @else if(type-of($size)==string) {
         #{$value}: $size;
       }
-
       @else {
         @if($flag=='true') {
           #{$value}: vw-convert-pcfull($size) !important;
         }
-
         @else {
           #{$value}: vw-convert-pcfull($size);
         }
       }
     }
-
     @media (min-width: ($pc-full+'px')) {
       #{$value}: $size;
     }
@@ -636,55 +571,38 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
 
       @else {
         #{$value}: vw-mo($size);
-        // @if($flag==true){
-        //   #{$value} : landscape($size, 'vw-mo180dp', $flag:true);
-        // }
-        // @else {
-        //   #{$value} : landscape($size, 'vw-mo180dp', $flag);
-        // }
       }
     }
   }
-
-  //tablet
   @if ($mode=='ta') {
     @media (min-width: $admin-mobile + 1 + 'px') and (max-width: ($breakpoints-tablet +'px')) {
       @if ($value==background-size) {
-        // #{$value} : red;
         #{$value}: vw-convert-bg-size1366($size);
       }
-
       @else {
         @if($flag==true) {
           #{$value}: vw-convert-ta1366($size) !important;
         }
-
         #{$value} : vw-convert-ta1366($size);
-        // #{$value} : $size;
       }
     }
-
     //pc
     @media (min-width: ($breakpoints-tablet+'px')) {
       @if($flag==true) {
         #{$value}: $size !important;
       }
-
       #{$value} : $size;
     }
   }
-
   @if ($mode=='va') {
     @media (min-width: $admin-mobile +'px') and (max-width: ($breakpoints-tablet +'px')) and (orientation: portrait) {
       @if ($value==background-size) {
         #{$value}: vw-convert-bg-size-mo-admin($size);
       }
-
       @else {
         @if($flag==true) {
           #{$value}: vw-mo-admin($size) !important;
         }
-
         #{$value}: vw-mo($size);
       }
     }
@@ -695,46 +613,6 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
 @mixin convert-m($value, $size, $type:mo) {
   @media (max-width: $breakpoints-mobile+'px') {
     #{$value}: $size;
-  }
-}
-
-@function convertm2($target){
-  $result:();
-  $length:length($target);
-  @if($length==1){
-    @return $target*2px;
-  }
-  @else if($length==2){
-    $result: append($result, nth($target, 1) * 2);
-    $result: append($result, nth($target, 2) * 2);
-    $result: append($result, nth($target, 1) * 2);
-    $result: append($result, nth($target, 2) * 2);
-    @return $result;
-  }
-  @else if($length==3){
-    $result: append($result, nth($target, 1) * 2);
-    $result: append($result, nth($target, 2) * 2);
-    $result: append($result, nth($target, 1) * 2);
-    $result: append($result, nth($target, 2) * 2);
-    @return $result;
-  }
-  @else if($length==4){
-    @for $i from 1 through 4 {
-      $result: append($result, nth($target, $i) * 2);
-    }
-    @return $result;
-  }
-}
-@mixin convert-m2($value, $size, $type:mo) {
-  @media (max-width: $breakpoints-mobile+'px') {
-    #{$value}: convertm2($size);
-  }
-}
-
-//tablet min height control
-@mixin min-height-ta($target, $pixel) {
-  @media (max-width: ($viewport-tablet +'px')) and (orientation: portrait) {
-    @include vw-convert($target, $pixel);
   }
 }
 
@@ -752,13 +630,89 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
+/*
+  @ 특수 해상도 모음
+*/
+// ispad에만 적용되게
+@mixin isipad($type: true) {
+  @if ($type==true) {
+    @media (max-width: 768+'px') and (orientation: portrait) {
+      @content;
+    }
+  }
+}
+
+// 모바일에서만
+@mixin IsMobile($type: true) {
+  @if ($type==true) {
+    @media (max-width: $breakpoints-mobile+'px') {
+      @content;
+    }
+  }
+  @else {
+    @media (min-width: $breakpoints-mobile+'px') {
+      @content;
+    }
+  }
+}
 
 // FIXME: 오직 태블릿만
 @mixin only-tab() {
-  @media (min-width: $breakpoints-mobile+'px') and (max-width: ('1280px')) {
+  @media (min-width: $breakpoints-mobile + 1 +'px') and (max-width: $viewport-tablet + 'px') {
     @content;
   }
 }
+
+@mixin only-tab1366() {
+  @media (min-width: $breakpoints-mobile + 1 +'px') and (max-width: $breakpoints-tablet + 1 + 'px') {
+    @content;
+  }
+}
+
+// custom 해상도 
+@mixin custom-media($start-resolution, $end-resolution, $landscape : false) {
+  @if ($landscape==true) {
+    @media (min-width: $start-resolution+'px') and (max-width: $end-resolution+'px') and (orientation: landscape) {
+      @content;
+    }
+  }
+
+  @else {
+    @media (min-width: $start-resolution+'px') and (max-width: $end-resolution+'px') {
+      @content;
+    }
+  }
+}
+
+// ios 8 대응 pixel-ratio, pixel-ratio ios8 : 2, 노트 10+: 2.5, 아이폰 12pro: 3
+@mixin custom-media-ratio($number) {
+  @media
+  (-webkit-min-device-pixel-ratio: $number)      and (max-width: $breakpoints-mobile+'px'),
+  (   min--moz-device-pixel-ratio: $number)      and (max-width: $breakpoints-mobile+'px'),
+  (     -o-min-device-pixel-ratio: $number)    and (max-width: $breakpoints-mobile+'px'),
+  (        min-device-pixel-ratio: $number)      and (max-width: $breakpoints-mobile+'px')  {
+
+  // @media (max-width: $breakpoints-mobile+'px') and (-webkit-min-device-pixel-ratio: $number),
+  // @media (max-width: $breakpoints-mobile+'px') and (min-device-pixel-ratio: $number){
+    @content;
+  }
+}
+
+@mixin custom-media-vertical($start-resolution, $end-resolution, $landscape : false) {
+  @if ($landscape==true) {
+    @media (min-height: $start-resolution+'px') and (max-height: $end-resolution+'px') and (orientation: landscape) {
+      @content;
+    }
+  }
+
+  @else {
+    @media (min-height: $start-resolution+'px') and (max-height: $end-resolution+'px') {
+      @content;
+    }
+  }
+}
+
+@mixin print-media () {}
 
 @mixin only-pc {
   @media (min-width: $breakpoints-tablet + 'px') {
@@ -766,30 +720,7 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
-// 모바일에 적용안되게
-@mixin IsMobile($type: true) {
-  @if ($type == true) {
-    @media (max-width: $breakpoints-mobile+'px'){
-      @content;
-    }
-  }
-  @else {
-    @media (min-width: $breakpoints-mobile+'px'){
-      @content;
-    }
-  }
-}
-
-// ispad에만 적용되게 
-@mixin isipad($type: true) {
-  @if ($type == true) {
-    @media (min-width: 768+'px') and (max-width: 800+'px') and (orientation: portrait){
-      @content;
-    }
-  }
-}
-
-@mixin vw-convert-mo($mode:'student') {
+@mixin media-mo($mode:'student') {
 
   // 관리자 페이지일 경우 admin
   @if ($mode=='admin') {
@@ -799,29 +730,19 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 
   @else {
-    @media (max-width: $breakpoints-mobile +'px') {
+    @media (max-width: $breakpoints-mobile+'px') {
       @content;
     }
   }
 }
 
-@mixin vw-convert-1366() {
 
-  // @media (min-width : $breakpoints-tablet + 1 + 'px') {
-  //   @content;
-  // }
+@mixin vw-convert-1366() {
   @media (min-width: $admin-mobile+'px') and (max-width: $breakpoints-tablet+ 'px') {
     @content;
   }
 }
 
-// @function z-index($name){
-//   @if map-has-key($layer, $name){
-//     @return map-get($layer, $name);
-//   }
-//   @warn "The key #{$name} is not in the map ’$layer’";
-//   @return null;
-// }
 
 /* ============================ */
 /* =========== 기본 =========== */
@@ -855,63 +776,6 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
-// @function vw-convert-bg-size-mo($target){
-@mixin vh-calc($height, $num1) {
-
-  // $full : 100vh;
-  // @if ($mode == 'pc'){
-  @media (min-width: ($viewport-tablet +'px')) {
-    // $count1 : vw-convert-ta($num1);
-    // $count2 : ($count1 / 1vw) * 1px;
-    $result:calc(100vh - #{$num1});
-    #{$height}: $result;
-    // }
-  }
-
-  // @else if ($mode == 'ta'){
-  @media (min-width: $breakpoints-mobile+'px') and (max-width: ($viewport-tablet - 1+'px')) {
-    // $count1 : vw-convert-ta($num1);
-    // $count2 : ($count1 / 1vw) * 1px;
-    // $result:calc(100vh - #{$count2});
-    // $vh : (1024 * 0.01) * 1px;
-
-    // $count1 : calc(100vh - 20.7vh);
-    // #{$height} : ($num1 / $vh) * 1vh;
-    $result:calc(100vh - #{$num1});
-    #{$height}: $result;
-  }
-
-  // }
-  // @else {
-  @media (max-width: ($breakpoints-mobile+'px')) {
-    // #{$height} : $result;
-  }
-
-  // }
-  // @return $result;
-}
-
-// @mixin  media($target, $value) {
-//   @media (min-width: ($viewport-tablet +'px')) {
-//     #{$target} : $value;
-//   }
-//   @media (min-width: $breakpoints-mobile+'px') and (max-width: ($viewport-tablet - 1+'px')) {
-//     #{$target} : $value;
-//   }
-//   @media (max-width: ($breakpoints-mobile +'px')) {
-//     #{$target} : $value;
-//   }
-// }
-
-/* == TODO: 이미지 관련 함수== */
-// 이미지 백그라운드 랜덤 포지션
-@mixin bg-position-random() {
-  $x: random(100);
-  $y: random(100);
-  @content;
-  background-position: #{$x}unquote('%') #{$y}unquote('%');
-}
-
 // 이미지 반복
 @mixin img ($path, $file-name, $end-num:null, $extension: 'png') {
   @for $i from 1 through $end-num {
@@ -924,7 +788,9 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
-@mixin absolute-full($type:true) {
+@mixin absolute-full($type:true, $num:0, $direction:none) {
+  @if($direction==none) {}
+
   @if($type==true) {
     position: absolute;
     top: 0;
@@ -937,19 +803,30 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   @if($type==remove) {
     position: static;
   }
-  @if($type==img){
+
+  @if($type==img) {
     position: absolute;
-    top:-100%;
-    left:-100%;
-    right:-100%;
-    bottom:-100%;
-    margin:auto;
+    top: -100%;
+    left: -100%;
+    right: -100%;
+    bottom: -100%;
+    margin: auto;
     @content;
   }
+
   @if($type==transform) {
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
+  }
+
+  @if($num !=0) {
+    position: absolute;
+    top: $num;
+    left: $num;
+    right: $num;
+    bottom: $num;
+    margin: auto;
   }
 }
 
@@ -969,7 +846,8 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
     vertical-align: middle;
     text-align: center;
   }
-  @if ($type == 'pc') {
+
+  @if ($type=='pc') {
     @for $i from $start-number through $number {
       &:nth-child(#{$i}) {
         &:before {
@@ -979,7 +857,8 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
     }
     @content;
   }
-  @if ($type == 'mo') {
+
+  @if ($type=='mo') {
     @for $i from $start-number through $number {
       &:nth-child(#{$i}) {
         &:before {
@@ -988,29 +867,43 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
       }
     }
   }
+}
 
-  @if($start-number : 10) {
-    // @for $start-number+1 from 1 through $number {
-    //   &:nth-child(#{$i}) {
-    //     &:before {
-    //       content:'0#{$i}'
-    //     }
-    //   }
-    // }
+$alphabet-map : (1: 'A',
+  2: 'B',
+  3: 'C',
+  4: 'D',
+  5: 'E'
+);
+
+@mixin auto-count-dot ($number, $start-number: 1, $type: 'pc') {
+  &:before {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
   }
 
-  // }
-  // @if ($toggle = 'off'){
-  //   @for $i from 1 through $number {
-  //     &:nth-child(#{$i}){
-  //         &:before {
-  //           background:none;
-  //           content:none;
-  //       }
-  //     }
-  //   }
-  // }
+  @for $i from $start-number through $number {
+    @if ($type=='pc') {
+      &:nth-child(#{$i}) {
+        &:before {
+          content:'#{$i}.'
+        }
+      }
+    }
+
+    @if ($type=='en') {
+      &:nth-child(#{$i}) {
+        &:before {
+          content:'#{map-get($alphabet-map, $i)}.'
+        }
+      }
+    }
+
+    @content;
+  }
 }
+
 
 // 01, 02, 03~
 @mixin auto-count-zero($number) {
@@ -1049,13 +942,7 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
-// TODO :백그라운드 이미지 포지션 랜덤
-@mixin bg-position-random() {
-  $x: random(100);
-  $y: random(100);
-  @content;
-  background-position: #{$x}px #{$y}px;
-}
+
 
 // 말줄임
 @mixin dotdotdot($type:dot) {
@@ -1074,16 +961,19 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
+// 멀티라인 dotdotdot
 @mixin multi-dotdotdot($font-size, $lines-to-show, $line-height:1.5) {
-  display: block; /* Fallback for non-webkit */
+  display: block;
+  /* Fallback for non-webkit */
   display: -webkit-box;
   // box-orient: vertical;
-  -webkit-box-orient:vertical;
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: $lines-to-show;
   // display: box;
   // max-width: 400px;
-  max-width:100%;
-  height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+  max-width: 100%;
+  height: $font-size*$line-height*$lines-to-show;
+  /* Fallback for non-webkit */
   margin: 0 auto;
   font-size: $font-size;
   line-height: $line-height;
@@ -1091,17 +981,10 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   text-overflow: ellipsis;
 }
 
-// 말줄임 제거
-// @mixin remove-dotdotdot(){
-//   white-space: normal;
-//   overflow: inherit;
-//   text-overflow: inherit;
-//   @content;
-// }
 
-// l-scroll-y
+// l-scroll-y 모바일 가로 스크롤
 @mixin scroll-y() {
-  @include vw-convert-mo() {
+  @include media-mo() {
     overflow-y: hidden;
     overflow: auto;
     width: 100%;
@@ -1114,21 +997,13 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
-@function flagChange($flag) {
-  @if $flag == 'true' {
-    // $flag : '!important';
-  }
-  @return $flag;
-}
 
-// 버튼 클릭시 눌리는 효과
+// (구)버튼 클릭시 눌리는 효과
 @mixin btn-click($pixel, $box-shadow, $flag: false) {
-  // @if $flag(true) {
-  //   $flag : flagChange($flag);
-  // }
-  @if ($flag == false) {
+  @if ($flag==false) {
     box-shadow: 0 #{$pixel} 0 0 $box-shadow;
     transition: all 0.2s;
+
     &:active {
       transform: translateY(4px);
       margin-bottom: 0;
@@ -1136,9 +1011,11 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
       box-shadow: 0px 2px 0 0 $box-shadow;
     }
   }
-  @if ($flag == true) {
+
+  @if ($flag==true) {
     box-shadow: 0 #{$pixel} 0 0 $box-shadow !important;
     transition: all 0.2s !important;
+
     &:active {
       transform: translateY(4px) !important;
       margin-bottom: 0 !important;
@@ -1148,14 +1025,11 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   }
 }
 
-// 버튼 클릭시 눌리는 효과 제거
+// (구)버튼 클릭시 눌리는 효과 제거
 @mixin remove-btn-click() {
   box-shadow: none;
-  // box-shadow: $box-shadow;
   transition: none;
   @content;
-
-  // margin-bottom:6px;
   &:active {
     transform: none;
     margin-bottom: 0;
@@ -1166,11 +1040,10 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
 
 // 모바일 fixed 버튼
 @mixin m-bottom-btn($number:1) {
-  @include vw-convert-mo() {
+  @include media-mo() {
     @if ($number==1) {
       width: 100%;
     }
-
     @if ($number==2) {
       a, button {
         width: 50% !important;
@@ -1186,7 +1059,7 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
     opacity: 1;
     border-radius: 0;
     z-index: 10;
-    max-width:inherit!important;
+    max-width:inherit !important;
     @content;
   }
 }
@@ -1212,18 +1085,21 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
     }
   }
 }
-@mixin self-vertical-center{
-  display:inline-block;
+
+@mixin self-vertical-center {
+  display: inline-block;
   vertical-align: middle;
   @content;
 }
 
+// 고유속성 제거
 @mixin select-bg {
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
   @content;
 }
+
 
 @mixin box-shadow ($pixel, $color, $type, $mode:"ta") {
   @if($mode=='ta') {
@@ -1249,16 +1125,48 @@ $mobile-sizes : ('vw-mo180dp':1, // 제플린 180dp
   margin-right: auto;
 }
 
-// 퍼센트 width 값\
-$percent-type : (('vw-mo', 180dp),
-  //  ('vw-')
-);
+@function randomNum($min, $max) {
+  $rand: random();
+  $randomNum: $min + floor($rand * (($max - $min) + 1));
 
+  @return $randomNum;
+}
 // 비율 코딩 대체용 : px를 강제로 %화 만들기, 
 // 사용 된곳 : 순서맞추기 
-@function percent($this, $all) {
-  // this 값, 전체 값
-  @return ($this / $all * 100) * 1%;
+@function percent($this, $all, $option:null) {
+  // this 값, 전체 값, 문자열 고정값( ' + 8px ');
+  $calc: (($this / $all * 100) * 1%);
+
+  @if($option !=null) {
+    @return calc(#{$calc} #{$option});
+  }
+
+  @else {
+    @return calc(#{$calc});
+  }
+}
+
+@function percentFull($this, $margin-right:0px) {
+  // @if($type-of($this) == list) {
+  // @return calc((100% - #{$this}) - #{$margin-right});
+  // }
+  @return calc((100% - #{$this}) - #{$margin-right});
+}
+
+@function func_calc($nth, $margin-right) {
+  // 전체 길이에서  list-1 만큼 margin-right 곱해서 빼고, 그 값에서 list 나누기
+  $nth2: $nth - 1;
+  @return calc((100% - (#{$nth2} * #{$margin-right})) / #{$nth});
+}
+
+@mixin mobile-width($clac-width, $option){
+  width: calc(100% - #{$clac-width});
+  @if( $option == 'margin-left') {
+    margin-left: $clac-width / 2;
+  }
+  @if ($option == 'left') {
+    left: $clac-width / 2;
+  }
 }
 
 @mixin text-shadow($pixel, $color) {
@@ -1268,12 +1176,32 @@ $percent-type : (('vw-mo', 180dp),
   #{0} -$pixel $color;
 }
 
-@mixin text-shadow2($pixel1, $pixel2, $color) {
-  text-shadow: 
-  -#{$pixel1} -#{$pixel1} #{$pixel2} $color,
+@mixin text-shadow2($pixel1, $pixel2, $color, $type:'bottom') {
+  @if ($type=bottom) {
+    text-shadow: #{$pixel1} #{$pixel1} $color,
+    #{$pixel1} #{$pixel2} $color,
+    #{$pixel1} #{$pixel1} $color,
+    #{$pixel1} #{$pixel2} $color;
+  }
+}
+
+@mixin text-shadow3($pixel1, $pixel2, $color) {
+  text-shadow: -#{$pixel1} -#{$pixel1} #{$pixel2} $color,
   #{$pixel1} -#{$pixel1} #{$pixel2} $color,
   -#{$pixel1} #{$pixel1} #{$pixel2} $color,
   #{$pixel1} #{$pixel1} #{$pixel2} $color;
+}
+
+@mixin text-indent($pixel, $type: 'true') {
+  @if ($type=='true') {
+    padding-left: #{$pixel};
+    text-indent: -#{$pixel};
+  }
+
+  @if ($type=='init') {
+    padding-left: 0;
+    text-indent: 0;
+  }
 }
 
 // 타이머 키프레임용 함수
@@ -1283,21 +1211,32 @@ $percent-type : (('vw-mo', 180dp),
 
 // 폰트
 @mixin font($type:'hg') {
-  @if ($type == 'hg'){
+  @if ($type=='hg') {
     font-family: 'HGSoftGGothicssi';
   }
-  @if ($type =='jalnan'){
+
+  @if ($type=='jalnan') {
     font-family: 'jalnan';
   }
-  @if ($type =='scd'){
+
+  @if ($type=='scd') {
     font-family: 'scd';
   }
-  @if ($type == 'init') {
+
+  @if ($type=='init') {
     font-family: 'Noto Sans KR';
+  }
+
+  @if ($type=='recipe') {
+    font-family: 'recipe';
+  }
+
+  @if ($type=='gmarket') {
+    font-family: 'Gmarket';
   }
 }
 
-// FIXME: 키프레임
+// FIXME: 키프레임 커스텀 테스트
 @mixin customKeyframe($name, $timer, $duration, $delay:0) {
   animation: $name $timer+s $duration;
   animation-play-state: running;
@@ -1336,19 +1275,21 @@ $percent-type : (('vw-mo', 180dp),
 
 @keyframes lprequest {
   0% {
-    // opacity: 0;
-    // transform: translateY(120px);
-    bottom:-100%;
+    bottom: -100%;
   }
 
-  // 25% {
-  //   opacity: 0;
-  // }
+  100% {
+    bottom: 27px;
+  }
+}
+
+@keyframes lprequest2 {
+  0% {
+    bottom: -100%;
+  }
 
   100% {
-    // opacity: 1;
-    // transform: translateY(0px);
-    bottom:27px;
+    bottom: 0px;
   }
 }
 
@@ -1407,7 +1348,7 @@ $percent-type : (('vw-mo', 180dp),
   }
 }
 
-// 반복적인 키프레임
+// FIXME: 반복적인 키프레임
 // startnum ~ endnum 까지, keyframe name,
 @mixin ordered-keyframe($startnum, $endnum, $name, $duration...) {
   @for $startnum from $startnum through $endnum {
@@ -1419,40 +1360,40 @@ $percent-type : (('vw-mo', 180dp),
 
 @keyframes testSelect {
   0% {
-    // @include vw-convert1366(font-size, 16px);
     font-size: 16px;
     color: #7f7f7f;
-    @include vw-convert-1366(){
-      font-size:14px;
+
+    @include vw-convert-1366() {
+      font-size: 14px;
     }
   }
 
   2% {
-    // @include vw-convert1366(font-size, 20px);
     font-size: 18px;
     color: #4c4c4c;
     font-weight: 500;
-    @include vw-convert-1366(){
-      font-size:16px;
+
+    @include vw-convert-1366() {
+      font-size: 16px;
     }
   }
 
   10% {
-    // @include vw-convert1366(font-size, 20px);
     font-size: 18px;
     color: #4c4c4c;
     font-weight: 500;
-    @include vw-convert-1366(){
-      font-size:16px;
+
+    @include vw-convert-1366() {
+      font-size: 16px;
     }
   }
 
   12% {
-    // @include vw-convert1366(font-size, 16px);
     font-size: 16px;
     color: #7f7f7f;
-    @include vw-convert-1366(){
-      font-size:14px;
+
+    @include vw-convert-1366() {
+      font-size: 14px;
     }
   }
 
@@ -1461,35 +1402,30 @@ $percent-type : (('vw-mo', 180dp),
 
 @keyframes junior-testSelect {
   0% {
-    // @include vw-convert1366(font-size, 16px);
     opacity: 0.6;
     color: #7f7f7f;
   }
 
   3% {
-    // @include vw-convert1366(font-size, 20px);
     color: #4c4c4c;
     font-weight: 500;
     opacity: 1;
   }
 
   23% {
-    // @include vw-convert1366(font-size, 20px);
     color: #4c4c4c;
     font-weight: 500;
     opacity: 1;
   }
 
   26% {
-    // @include vw-convert1366(font-size, 16px);
     opacity: 0.6;
     color: #7f7f7f;
   }
 }
 
 
-$color-pack : (
-  1: #e95241,
+$color-pack : (1: #e95241,
   2: #f86822,
   3: #faa807,
   4: #f9c21d,
@@ -1499,16 +1435,12 @@ $color-pack : (
   8: #00ada3,
   9: #00b9cb,
   10: #289fc6,
-  11: #f7f8f8
-);
-$junior-color-pack : (
-  1: #289fc6,
+  11: #f7f8f8);
+$junior-color-pack : (1: #289fc6,
   2: #00ADA3,
   3: #00B9CB,
-  4: #f7f8f8
-);
-$currLine-color : (
-  1: #95c14e,
+  4: #f7f8f8);
+$currLine-color : (1: #95c14e,
   2: #30a164,
   3: #00ada3,
   4: #00b9cb,
@@ -1518,45 +1450,53 @@ $currLine-color : (
   8: #faa807,
   9: #f9c21d,
   10: #b8cc37,
-  11: #95c14e
-);
+  11: #95c14e);
+
 @for $i from 1 through 10 {
   @keyframes currDot#{$i} {
     0% {
-        opacity: 1;
-        background: map-get($color-pack, $i);
-        width:5px;
-        height:5px;
+      opacity: 1;
+      background: map-get($color-pack, $i);
+      width: 5px;
+      height: 5px;
     }
+
     2% {
-        background: map-get($color-pack, $i);
-        width:50px;
-        height:50px;
+      background: map-get($color-pack, $i);
+      width: 50px;
+      height: 50px;
     }
+
     5% {
       opacity: 0;
       background: map-get($color-pack, 11);
     }
+
     100% {}
   }
+
   @keyframes currDot#{$i}-m {
     0% {
-        opacity: 1;
-        background: map-get($color-pack, $i);
-        width:5px;
-        height:5px;
+      opacity: 1;
+      background: map-get($color-pack, $i);
+      width: 5px;
+      height: 5px;
     }
+
     2% {
-        background: map-get($color-pack, $i);
-        width:30px;
-        height:30px;
+      background: map-get($color-pack, $i);
+      width: 30px;
+      height: 30px;
     }
+
     5% {
       opacity: 0;
       background: map-get($color-pack, 11);
     }
+
     100% {}
   }
+
   @keyframes junior-currDot#{$i} {
     0% {
       opacity: 1;
@@ -1564,24 +1504,29 @@ $currLine-color : (
       width: 5px;
       height: 5px;
     }
+
     10% {
       background: map-get($junior-color-pack, $i);
       width: 50px;
       height: 50px;
     }
+
     12% {
       background: map-get($junior-color-pack, $i);
       width: 50px;
       height: 50px;
     }
+
     20% {
       opacity: 0;
       background: map-get($junior-color-pack, 11);
-      width:5px;
-      height:5px;
+      width: 5px;
+      height: 5px;
     }
+
     100% {}
   }
+
   @keyframes junior-currDot#{$i}-m {
     0% {
       opacity: 1;
@@ -1589,21 +1534,25 @@ $currLine-color : (
       width: 5px;
       height: 5px;
     }
+
     10% {
       background: map-get($junior-color-pack, #{$i});
       width: 30px;
       height: 30px;
     }
+
     12% {
       background: map-get($junior-color-pack, #{$i});
       width: 30px;
       height: 30px;
     }
+
     20% {
       opacity: 0;
       background: map-get($junior-color-pack, 11);
     }
   }
+
   @keyframes currLine#{$i} {
     0% {
       background: linear-gradient(to left, map-get($currLine-color, $i) 100%, map-get($currLine-color, $i+1) 0%);
@@ -1611,80 +1560,107 @@ $currLine-color : (
       left: 100%;
       height: 5px;
     }
+
     5% {
       background: linear-gradient(to left, map-get($currLine-color, $i) 0%, map-get($currLine-color, $i+1) 100%);
       right: 0%;
       left: 0%;
     }
+
     // 없어짐
     10% {
       right: 0%;
       left: 0%;
     }
+
     15% {
       right: 100%;
       left: 0%;
     }
+
     20% {
       visibility: hidden;
     }
+
     100% {
       visibility: hidden;
       display: none;
     }
   }
 }
-@mixin currDot ($max-num, $type:'pc'){
+
+@mixin currDot ($max-num, $type:'pc') {
   @for $i from 1 through $max-num {
-    &:nth-child(#{$i}){
-      background:map-get($color-pack, $i);
+    &:nth-child(#{$i}) {
+      background: map-get($color-pack, $i);
+
       &:after {
-        content:'';
+        content: '';
+
         @if($type=='pc') {
           animation: currDot#{$i} 30s linear infinite;
         }
+
         @if($type=='mo') {
           animation: currDot#{$i}-m 30s linear infinite;
         }
+
         animation-delay: ($i - 1)*3s;
       }
     }
   }
 }
-@mixin junior-currDot ($max-num, $type:'pc'){
+
+@mixin junior-currDot ($max-num, $type:'pc') {
   @for $i from 1 through $max-num {
-      &:nth-child(#{$i}){
+    &:nth-child(#{$i}) {
+      background: map-get($junior-color-pack, $i);
+
+      &:after {
         background: map-get($junior-color-pack, $i);
-        &:after {
-          background: map-get($junior-color-pack, $i);
-          // background:red;
-          content:'';
-          @if($type=='pc') {
-            animation: junior-currDot#{$i} 9s linear infinite;
-          }
-          @if($type=='mo') {
-            animation: junior-currDot#{$i}-m 9s linear infinite;
-          }
-          animation-delay: ($i - 1)*3s;
+        // background:red;
+        content: '';
+
+        @if($type=='pc') {
+          animation: junior-currDot#{$i} 9s linear infinite;
         }
+
+        @if($type=='mo') {
+          animation: junior-currDot#{$i}-m 9s linear infinite;
+        }
+
+        animation-delay: ($i - 1)*3s;
       }
+    }
   }
 }
-@mixin currLine ($max-num, $type:'pc'){
+
+@mixin currLine ($max-num, $type:'pc') {
   @for $i from 1 through $max-num {
-    &:nth-child(#{$i}){
+    @include is-ie {
+      &:nth-child(#{$i}) {
+        span {
+          animation: none;
+        }
+      }
+    }
+
+    &:nth-child(#{$i}) {
       span {
         @if($type=='pc') {
           animation: currLine#{$i} 30s ease infinite;
         }
+
         @if($type=='mo') {
           animation: currLine#{$i}-m 30s ease infinite;
         }
-        @if ($i <= 5){
+
+        @if ($i <=5) {
           // content:18+(($i - 1) *3);
           animation-delay: 18+(($i - 1) *3)+s;
         }
-        @if ($i > 5){
+
+        @if ($i > 5) {
           // content:(($i - 5)*3);
           animation-delay: (($i - 5)*3)+s;
         }
@@ -1693,120 +1669,156 @@ $currLine-color : (
   }
 }
 
-// 랜덤 이미지 테스트
-$random-bg : (
-  'num1': #ff0000,
+// FIXME: 랜덤 이미지 테스트
+$random-bg : ('num1': #ff0000,
   'num2' : #ff8c00,
   'num3' : #ffff00,
   'num4' : #008000,
   'num5' : #0000ff,
   'num6' : #4b0082,
-  'num7' : #800080
-);
+  'num7' : #800080);
 
 // 밑줄 높이, 밑줄 색상
-@mixin text-underline ($height, $background) {
+// @ 높이는 %값, 기본 40% 정도
+@mixin text-underline ($background, $height:40%) {
   background-image: linear-gradient(transparent (100 - $height / 1%)* 1%, $background $height);
   @content;
 }
-@mixin bg($type:'contain'){
+
+@mixin bg($type:'contain') {
   @content;
   background-position: center;
   background-repeat: no-repeat;
-  @if ($type == 'contain') {
-    background-size:contain;
+
+  @if ($type=='contain') {
+    background-size: contain;
   }
-  @if ($type == 'cover') {
-    background-size:cover;
+
+  @if ($type=='cover') {
+    background-size: cover;
   }
-  @if ($type == 'none') {
-    background-size:initial;
+
+  @if ($type=='none') {
+    background-size: initial;
   }
 }
 
-// FIXME: 도형 만들기 함수, 삼각형
-@mixin border-triangle ($base, $direction, $bgcolor) {
+// 도형 만들기 함수, 삼각형
+@mixin border-triangle ($base, $direction, $bgcolor, $option: 0) {
   width: 0;
   height: 0;
+  // $option: 0;
   $half-base: $base/2;
-  @if $direction == top {
-      border: {
-          left: $half-base solid transparent;
-          right: $half-base solid transparent;
-          bottom: $half-base solid $bgcolor;
-      }
+
+  @if $direction==top {
+    border-left: $half-base solid transparent;
+    border-right: $half-base solid transparent;
+
+    @if $option==0 {
+      border-bottom: $half-base solid $bgcolor;
+    }
+
+    @if $option !=0 {
+      border-bottom: $option solid $bgcolor;
+    }
   }
-  @else if $direction == bottom {
-      border: {
-          left: $half-base solid transparent;
-          right: $half-base solid transparent;
-          top: $half-base solid $bgcolor;
-      }
+
+  @else if $direction==bottom {
+    border-left: $half-base solid transparent;
+    border-right: $half-base solid transparent;
+
+    @if $option==0 {
+      border-top: $half-base solid $bgcolor;
+    }
+
+    @if $option !=0 {
+      border-top: $option solid $bgcolor;
+    }
   }
-  @else if $direction == left {
-      border: {
-          top: $half-base solid transparent;
-          bottom: $half-base solid transparent;
-          right: $half-base solid $bgcolor;
-      }
+
+  @else if $direction==left {
+    border-top: $half-base solid transparent;
+    border-bottom: $half-base solid transparent;
+
+    @if $option==0 {
+      border-right: $half-base solid $bgcolor;
+    }
+
+    @if $option !=0 {
+      border-right: $option solid $bgcolor;
+    }
   }
+
   @else {
-      border: {
-          top: $half-base solid black;
-          bottom: $half-base solid black;
-          left: $half-base solid $bgcolor;
-      }
+    border-top: $half-base solid transparent;
+    border-bottom: $half-base solid transparent;
+
+    @if $option==0 {
+      border-left: $half-base solid $bgcolor;
+    }
+
+    @if $option !=0 {
+      border-left: $option solid $bgcolor;
+    }
   }
 }
+
 @mixin border-triangle-top ($base, $bgcolor) {
   @include border-triangle($base, top, $bgcolor);
 }
+
 @mixin border-triangle-right ($base, $bgcolor) {
   @include border-triangle($base, right, $bgcolor);
 }
+
 @mixin border-triangle-bottom ($base, $bgcolor) {
   @include border-triangle($base, bottom, $bgcolor);
 }
+
 @mixin border-triangle-left ($base, $bgcolor) {
   @include border-triangle($base, left, $bgcolor);
 }
 
 // 텍스트가 한줄일 경우 font-size 와 line-height 맞추기
 @mixin one-line-text ($font-size) {
-  font-size:$font-size;
+  font-size: $font-size;
   line-height: $font-size;
 }
 
 // 문제 타입(is-chk, is-true, is-false 체크
-// @mixin ploblem-type-chk($is-type, ){
+// @mixin problem-type-chk($is-type, ){
 //   @content;
 // }
 
 // FIXME: 도형 만들기 함수, 말풍선 마들기
-@mixin speech_bubble($timer) {
-  animation: updown #{2}s infinite linear;
-    animation-fill-mode: forwards;
+// 말풍선 위아래 움직이게 하기
+@mixin speech_bubble-animaiton($basic-position, $timer:2) {
+  animation: updown #{$timer}s infinite linear;
+  animation-fill-mode: forwards;
+
   @keyframes updown {
 
     0%,
     100% {
-      top: -96px;
+      // top: -96px;
+      top: $basic-position+(-10);
     }
 
     50% {
-      top: -86px;
+      top: $basic-position
     }
   }
 }
 
-// FIXME: 도형 만들기 함수,  항상 감싸서 사용하기
+// 도형 만들기 함수,  항상 감싸서 사용하기
 @mixin bookmark($height, $width, $bottom, $color, $shadow: false) {
   width: 0;
   height: $height - $bottom;
-  border-left: ($width/2)+0.5px solid $color;
-  border-right: ($width/2)+0.5px solid $color;
+  border-left: ($width/2)+0.0px solid $color;
+  border-right: ($width/2)+0.0px solid $color;
   border-bottom: $bottom solid transparent;
   border-radius: 4px;
+
   @if ($shadow : true) {
     &:before {
       position: absolute;
@@ -1814,17 +1826,317 @@ $random-bg : (
       left: 0;
       width: 0;
       height: $height - $bottom;
-      border-left: ($width/2)+0.5px solid #D9DFEC;
-      border-right: ($width/2)+0.5px solid #D9DFEC;
+      border-left: ($width/2)+0.0px solid #D9DFEC;
+      border-right: ($width/2)+0.0px solid #D9DFEC;
       border-bottom: $bottom solid transparent;
       border-radius: 4px;
       z-index: -1;
-      content:'';
+      content: '';
     }
   }
 }
 
-// jq의 hasClass같은 기능. class판별
-@mixin hasclass($class) {
+// FIXME: jq의 hasClass같은 기능. class판별
+// @mixin hasclass($class) {
+//   @content;
+// }
+
+// scroll-bar-bg, scroll-bar-track-bg
+@mixin custom-scrollbar ($scroll-bar-bg, $scroll-track-bg, $width, $option...) {
+
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-thumb {
+    @content;
+  }
+
+  &::-webkit-scrollbar {
+    width: $width;
+    background: #{$scroll-bar-bg};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #{$scroll-track-bg};
+  }
+}
+
+$character-status-img : (1: study,
+  2: nice,
+  3: good,
+  4: wink,
+  5: smile,
+  6: normal,
+  7: bad,
+  8: sad);
+$character-name-img : (1: kkaeda,
+  2: chaelli,
+  3: ddami);
+
+@mixin character-status() {
+
+  @each $list,
+  $status in $character-status-img {
+
+    @each $list,
+    $name in $character-name-img {
+      &.is-#{$status}.#{$name} {
+        background:url('components/imgs/#{$name}-#{$status}.png') no-repeat center;
+        background-size: contain;
+      }
+    }
+  }
+}
+
+// FIXME: svg 변환 
+// @ $stroke, $fill
+// @function svg-color($color) {
+//   @return $color;
+// }
+// @mixin svg-img {
+//   @content;
+// }
+// 속성변경시엔 override 식으로 덮어씌우기
+@mixin speech_bubble($width, $height, $border-color:#d9dfec) {
+  $border-triangle: $border-color !default;
+  position: absolute;
+  width: $width;
+  min-height: $height;
+  border: 2px solid $border-color;
+  background: white;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 0px 3px 0px rgba(0, 0, 0, 0.3);
   @content;
+}
+
+@mixin speech_bubble-tail($direction, $width, $height, $border-color, $bg:white, $rgba:rgba(0, 0, 0, 0.3)) {
+
+  // $bottom: '';
+  .bg-arrow,
+  .arrow {
+    position: absolute;
+    margin: auto;
+
+    @if $direction==bottom or $direction==top {
+      right: 0;
+      left: 0;
+    }
+
+    @if $direction==bottom {
+      bottom: -$height;
+    }
+
+    @if $direction==top {
+      top: -$height;
+    }
+
+    @if $direction==left or $direction==right {
+      top: 0;
+      bottom: 0;
+    }
+
+    @if $direction==left {
+      left: -$width;
+    }
+
+    @if $direction==right {
+      right: -$width;
+    }
+  }
+
+  .bg-arrow {
+    // 기본 배경
+    @include border-triangle ($width, $direction, $bg, $height);
+    z-index: 2;
+  }
+
+  .arrow {
+    // 투명한 공간
+    @include border-triangle ($width, $direction, transparent, $height);
+    z-index: 1;
+
+    @if $direction==bottom {
+      bottom: -$height;
+    }
+
+    @if $direction==top {
+      top: -$height;
+    }
+
+    &:before,
+    &:after {
+      position: absolute;
+      content: '';
+
+      @if $direction==bottom or $direction==top {
+        left: -(($width + 5)/2);
+      }
+
+      @if $direction==left or $direction==right {
+        top: 0;
+        bottom: 0;
+        margin: auto;
+      }
+    }
+
+    &:before {
+
+      // 테두리
+      @if $direction==bottom {
+        top: -$height;
+      }
+
+      @if $direction==top {
+        bottom: -$height;
+      }
+
+      @if $direction==left or $direction==right {}
+
+      @if $direction==left {
+        left: -($height - 5);
+      }
+
+      @if $direction==right {
+        right: -($height - 5);
+        // right: -1*speech_bubble-tail-calc($height);
+      }
+
+      @include border-triangle ($width+6, $direction, $border-color, $height + 4);
+      z-index: -1;
+    }
+
+    &:after {
+
+      // box-shadow
+      @if $direction==bottom {
+        top: -($height / 2);
+      }
+
+      @if $direction==top {
+        content: none;
+      }
+
+      @if $direction==left {
+        left: -($height - 5);
+        top: ($height - 5);
+      }
+
+      @if $direction==right {
+        right: -($height - 5);
+        // right: -1*speech_bubble-tail-calc($height);
+        top: ($height - 5);
+      }
+
+      @include border-triangle ($width+6, $direction, $rgba, $height+4);
+      z-index: -2;
+    }
+  }
+}
+
+// 좌우용 간격 계산 함수
+@function speech_bubble-tail-calc($input) {
+  $result: '';
+
+  @if ($input <=12) {
+    $result: 4;
+  }
+
+  @else {
+    $result: $input - 5;
+  }
+
+  @return $result;
+}
+
+// 방향, 왼쪽 위를 기준으로 간격
+@mixin speech_bubble-tail-position($direction, $position) {
+
+  //$position은 최소 3이상
+  @if $direction=='top'or $direction=='bottom' {
+    .bg-arrow {
+      right: auto;
+      left: $position;
+    }
+
+    .arrow {
+      right: auto;
+      left: $position - 1;
+    }
+  }
+
+  @if $direction=='right'or $direction=='left' {
+
+    .bg-arrow,
+    .arrow {
+      bottom: auto;
+      top: $position;
+    }
+  }
+}
+
+// 브레드 크럼의 높이. 
+@mixin breadcrumb($height, $border-width, $bg, $direction:left) {
+  position: relative;
+  display: inline-block;
+  background: $bg;
+  height: $height;
+  margin-left: $height/2;
+  position: relative;
+  @content;
+
+  @if $direction==left {
+    &:before {
+      left: -$border-width;
+      border-bottom: $height/2 solid transparent;
+      border-top: $height/2 solid transparent;
+      border-right: $border-width solid $bg;
+    }
+
+    &:after {
+      right: -$border-width;
+      border-top: $height/2 solid $bg;
+      border-bottom: $height/2 solid $bg;
+      border-right: $border-width solid transparent;
+    }
+  }
+
+  @if $direction==right {
+    &:before {
+      right: -$border-width;
+      left: auto;
+      border-bottom: $height/2 solid transparent;
+      border-top: $height/2 solid transparent;
+      border-left: $border-width solid $bg;
+      border-right: none;
+    }
+
+    &:after {
+      left: -$border-width;
+      right: auto;
+      border-top: $height/2 solid $bg;
+      border-bottom: $height/2 solid $bg;
+      border-left: $border-width solid transparent;
+    }
+  }
+
+  &:before,
+  &:after {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 0;
+    content: '';
+  }
+
+  &:after {
+    z-index: -1;
+  }
+}
+
+/* IE10이상? */
+@mixin is-ie() {
+
+  @media screen and (-ms-high-contrast: active),
+  (-ms-high-contrast: none) {
+    @content;
+  }
 }
