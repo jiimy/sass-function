@@ -2140,3 +2140,69 @@ $character-name-img : (1: kkaeda,
     @content;
   }
 }
+
+$class-selectors: ();
+
+@mixin class() {}
+
+@mixin classname-static($extend: true) {
+  $class-selector: map-get($class-selectors, 'class');
+
+  @if $extend==true {
+    @if $class-selector==null {
+      $class-selector: unique-id();
+      $class-selectors: map-merge($class-selectors, ('class': $class-selector)) !global;
+      @at-root %#{$class-selector} {
+        @include classname-static(false);
+      }
+    }
+  }
+}
+
+@include classname-static();
+
+
+// class에 unique-id 주는거 안돼나 ㅠ 
+
+
+
+$Placeholder-Selectors: ();
+
+@mixin button($color, $extend: true) {
+  @include button-static($extend);
+  background-color: $color;
+  border-color: mix(black, $color, 25%);
+  &:hover {
+    background-color: mix(black, $color, 15%);
+    border-color: mix(black, $color, 40%);
+  }
+}
+
+@mixin button-static($extend: true) {
+  $button-selector: map-get($Placeholder-Selectors, 'button');
+  @if $extend == true {
+    @if $button-selector == null {
+        $button-selector: unique-id();
+        $Placeholder-Selectors: map-merge($Placeholder-Selectors, ('button': $button-selector)) !global;
+        @at-root %#{$button-selector} {
+            @include button-static(false);
+        }
+    }
+    @extend %#{$button-selector};
+    }
+    @else {
+    border: 1px solid;
+    border-radius: 5px;
+    padding: .25em .5em;
+    cursor: pointer;
+  }
+}
+
+button {
+  &.testA {
+    @include button(#b4d455);
+  }
+  &.testB {
+    @include button(#decaff);
+  }
+}
