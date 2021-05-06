@@ -21,3 +21,20 @@ sass 함수 정리
 
 #### [pratice.scss](https://github.com/jiimy/sass-function/blob/master/pratice.scss)
 - 사스 함수 연구소. 여러 시도하고 있는 함수와 mixin 이 있습니다. 
+
+
+추가 작업할 부분
+[] - .a, .b 클래스 들을 공통으로 묶는 mixin 함수 연구 
+ex) 
+@mixin classes ('클래스명1, 클래스명2'){
+...
+}
+
+@include classes('.a, .b') {
+  color: red;
+}; 
+의 결과는 
+.a, .b {
+  color: red;
+}
+와 같게
