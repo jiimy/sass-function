@@ -24,6 +24,7 @@ sass 함수 정리
 
 
 추가 작업할 부분
-- [ ]  - .a, .b 클래스 들을 공통으로 묶는 mixin 함수 연구 
+- [ㅇ]  - .a, .b 클래스 들을 공통으로 묶는 mixin 함수 연구 
 ex) @mixin classes ('클래스명1, 클래스명2'){ ... }
+
 @include classes('.a, .b') { color: red; }; 의 결과는 .a, .b { color: red; } 와 같게
