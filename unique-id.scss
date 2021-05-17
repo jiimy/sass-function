@@ -1,0 +1,41 @@
+
+@mixin multi-selector ($classnames...) {
+  @for $i from 1 through length($classnames) {
+  background: nth($classnames, $i);
+    #{nth($classnames, $i)} {
+      @content;
+    }
+  }
+  background: length($classnames);
+  &:before {
+    content: '#{$classnames}';
+  }
+}
+
+// 2. - 이렇게 쓰면 1. 의 현상이 없이 독립적으로 생성됨
+.wrap2 {
+  @include multi-selector ('.div', '.dd') {
+    color: red;
+  }
+}
+
+// 1. -  일반적으로 이렇게 쓰면 클래스가 a, b { 적용 } 이렇게 되는데
+.wrap3 {
+  .div, .dd {
+    color: blue;
+  }
+}
+
+<!-- <div class="wrap2">
+  <p>aaaa</p>
+  <div class="div">div</div>
+  <div class="dd">dd</div>
+</div>
+
+<div class="wrap3">
+
+/* 부트스트랩같은 경우 여러개의 태그를 묶어놓고 같은 속성이 들어간 경우가 있는데 그런부분에서 중복되는 태그를 제거하는 방법이 scss 함수 기능중 하나인 unique-id를 이용해서 할수있으나, 사용법이 쉽지않고, 유동적으로 대처하기가 어려워 
+scss의 spead를 이용해서 multi-selector 함수를 만듬 */
+  <div class="div">div</div>
+  <div class="dd">dd</div>
+</div> -->
