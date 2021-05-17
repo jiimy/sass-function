@@ -22,6 +22,8 @@ sass 함수 정리
 #### [pratice.scss](https://github.com/jiimy/sass-function/blob/master/pratice.scss)
 - 사스 함수 연구소. 여러 시도하고 있는 함수와 mixin 이 있습니다. 
 
+#### [unique-id.scss](https://github.com/jiimy/sass-function/blob/master/unique-id.scss)
+- 중복해서 사용하는 부분제거 하는 함수 ( unique-id 대체인 멀티 셀렉터 함수 )
 
 추가 작업할 부분
 - [ㅇ]  - .a, .b 클래스 들을 공통으로 묶는 mixin 함수 연구 
