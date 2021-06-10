@@ -25,8 +25,6 @@ sass 함수 정리
 #### [unique-id.scss](https://github.com/jiimy/sass-function/blob/master/unique-id.scss)
 - 중복해서 사용하는 부분제거 하는 함수 ( unique-id 대체인 멀티 셀렉터 함수 )
 
-추가 작업할 부분
-- [ㅇ]  - .a, .b 클래스 들을 공통으로 묶는 mixin 함수 연구 
-ex) @mixin classes ('클래스명1, 클래스명2'){ ... }
-
-@include classes('.a, .b') { color: red; }; 의 결과는 .a, .b { color: red; } 와 같게
+#### [codepen 연구소](https://codepen.io/collection/XqgEEb?cursor=ZD0wJm89MCZwPTEmdj00)
+- scss 함수 연구소 입니다. 
+- 최신문법 ( using, @slot 등 ) 테스트 및 모듈, 함수를 연구하는 공간입니다. 
