@@ -26,7 +26,7 @@ sass 함수 정리
 - 중복해서 사용하는 부분제거 하는 함수 ( unique-id 대체인 멀티 셀렉터 함수 )
 - 효율이 너무 안좋아서 사용불가
 
-#### [spread-operator.scss](https://github.com/jiimy/sass-function/blob/master/unique-id.scss)
+#### [unique-id.scss](https://github.com/jiimy/sass-function/blob/master/unique-id.scss)
 - 타입이 추가될시 중복되는 부분을 제거하는 함수
 - class에서 사용가능 한지 테스트 진행중
 
