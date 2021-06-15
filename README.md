@@ -22,8 +22,9 @@ sass 함수 정리
 #### [pratice.scss](https://github.com/jiimy/sass-function/blob/master/pratice.scss)
 - 사스 함수 연구소. 여러 시도하고 있는 함수와 mixin 이 있습니다. 
 
-#### [unique-id.scss](https://github.com/jiimy/sass-function/blob/master/unique-id.scss)
+#### [spread-operator.scss](https://github.com/jiimy/sass-function/blob/master/unique-id.scss)
 - 중복해서 사용하는 부분제거 하는 함수 ( unique-id 대체인 멀티 셀렉터 함수 )
+- 효율이 너무 안좋아서 사용불가
 
 #### [codepen 연구소](https://codepen.io/collection/XqgEEb?cursor=ZD0wJm89MCZwPTEmdj00)
 - scss 함수 연구소 입니다. 
