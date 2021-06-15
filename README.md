@@ -19,7 +19,7 @@ sass 함수 정리
 #### [darkmode.scss](https://github.com/jiimy/sass-function/blob/master/darkmode.scss)
 - 다크모드 처럼 테마 만들기
 
-#### [pratice.scss](https://github.com/jiimy/sass-function/blob/master/pratice.scss)
+#### [pratice.scss](https://github.com/jiimy/sass-function/blob/master/practice.scss)
 - 사스 함수 연구소. 여러 시도하고 있는 함수와 mixin 이 있습니다. 
 
 #### [spread-operator.scss](https://github.com/jiimy/sass-function/blob/master/spread-operator.scss)
