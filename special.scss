@@ -1,0 +1,15 @@
+// 스크롤 영역에서 내부의 툴팁 보이게 하는 영역 잡기
+$value-top: 90px; // 위
+$value-bottom: 540px; // 아래
+// $value-top: 90px; // 위
+// $value-bottom: 270px; // 아래
+$value-right: 0px; // 오른쪽
+$value-left: 70px; // 왼쪽
+.chart-scroll-area {
+  margin: -#{$value-top} -#{$value-right} -#{$value-bottom} -#{$value-left};
+  padding: #{$value-top} #{$value-right} #{$value-bottom} #{$value-left};
+  .is-label & {
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
