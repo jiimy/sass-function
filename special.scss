@@ -1,4 +1,4 @@
-// 스크롤 영역에서 내부의 툴팁 보이게 하는 영역 잡기
+#### 스크롤 영역에서 내부의 툴팁 보이게 하는 영역 잡기
 $value-top: 90px; // 위
 $value-bottom: 540px; // 아래
 // $value-top: 90px; // 위
@@ -12,4 +12,25 @@ $value-left: 70px; // 왼쪽
     margin-left: 0;
     padding-left: 0;
   }
+}
+
+#### svg scss 컴포넌트 사용. (연구가 더 필요함)
+// const 파일 지정 
+$map-icon : (
+  fillarrow : "%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.7062 13.6819C11.8645 13.8534 12.1355 13.8534 12.2938 13.6819L14.8439 10.9214C15.0805 10.6652 14.8988 10.25 14.55 10.25H9.44995C9.10118 10.25 8.91947 10.6652 9.15613 10.9214L11.7062 13.6819Z' fill='%2341424A'/%3E%3C/svg%3E%0A"
+);
+
+// TODO: svg 컴포넌트 제작하기
+@function icon($iconName, $color: 555555) {
+  $icon: map-get($map-icon, $iconName);
+  @return url("data:image/svg+xml;charset=utf8,#{$icon}");
+}
+
+
+
+// 사용하는 곳
+@import './utils/images/svg/svg.scss';
+
+body {
+  // background: icon(fillarrow);
 }
