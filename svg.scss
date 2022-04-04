@@ -23,7 +23,8 @@ $map-icon : (
 // TODO: svg 컴포넌트 제작하기
 @function icon($iconName, $color: 555555) {
   $icon: map-get($map-icon, $iconName);
-  @r
+  @return url("data:image/svg+xml;charset=utf8,#{$icon}");
+}
 
 
 // scss에서의 svg 색상만 바꾸는 코드 
