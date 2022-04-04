@@ -26,6 +26,7 @@ $map-icon : (
   @return url("data:image/svg+xml;charset=utf8,#{$icon}");
 }
 
+background: icon(fillarrow);
 
 // scss에서의 svg 색상만 바꾸는 코드 
 // svg 를 data:image 로 바꿔주는 사이트 https://yoksel.github.io/url-encoder/
