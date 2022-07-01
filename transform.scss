@@ -1,0 +1,73 @@
+$breakpoints-mobile : 767;
+$viewport-tablet : 1024;
+$breakpoints-tablet : 1366;
+
+@function mobile-180($target) {
+  $result: ();
+  $length: length($target);
+  @for $i from 1 through $length {
+    @if type-of(nth($target, $i))==string {
+      $result: append($result, nth($target, $i));
+    }
+    @else {
+      $result: append($result, nth($target, $i) *2);
+    }
+  }
+  @return $result;
+}
+@function vw-convert-ta($target) {
+  $vw-content: ($viewport-tablet * 0.01) * 1px;
+  $result: ();
+  $length: length($target);
+
+  @for $i from 1 through $length {
+    @if(type-of(nth($target, $i)) == string) {
+      $result: append($result, nth($target, $i));
+    }
+    @else {
+      $result: append($result, nth($target, $i) / $vw-content +vw);
+    }
+  }
+  @return $result;
+}
+
+@function vw-mo($target) {
+  $convert-result: mobile-180($target);
+  @return $convert-result;
+}
+@function vw-convert($target) {
+	$convert-result: vw-convert-ta($target);
+	@return $convert-result;
+}
+
+
+
+
+
+@mixin transform($type, $size, $mode:'ta', $scale:null) {
+  @if($mode=='mo') {
+    $result-mo: vw-mo($size);
+    @media (max-width: ($breakpoints-mobile +'px')) {
+      transform: #{$type}#{unquote("(#{$result-mo})")} $scale;
+
+    }
+  }
+  @if ($mode=='ta') {
+    $result-ta: vw-convert($size);
+
+    @media (min-width: $breakpoints-mobile+'px') and (max-width: ($viewport-tablet - 1+'px')) {
+      transform: #{$type}#{unquote("(#{$result-ta})")} $scale;
+
+    }
+
+    @media (min-width: ($viewport-tablet+'px')) {
+      transform: #{$type}#{unquote("(#{$size})")} $scale;
+
+    }
+  }
+}
+
+.selector {
+		// color: red;
+	@include transform('translate', 20px);
+}
