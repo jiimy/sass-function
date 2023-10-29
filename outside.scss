@@ -1,3 +1,5 @@
+// 원본 링크 : https://pantaley.com/blog/Add-class-to-the-most-outer-selector-using-Sass-mixin/
+
 @mixin most-outer-selector($new-class) {
   $current-selector: &;
   $new-selector: [];
@@ -25,7 +27,18 @@
     }
   }
 }
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+<!-- example 1 -->
+<div class="parent">
+  <div class="child"><span>Hello World<span></div>
+</div>
 
-/*
-.parent.bold span 
-*/
+<!-- example 2 -->
+<div class="parent bold">
+  <div class="child"><span>Hello World<span></div>
+</div>
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+.parent class의 bold가 있으면 font-weight bold
+most-outer-selector가 선언된 최상위의 & 클래스 구분. 
+
